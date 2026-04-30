@@ -1,0 +1,171 @@
+<UserControl x:Class="HVSCaptureOne.App.Views.Wizard.ReviewStepView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource AppBackgroundBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel MaxWidth="600" Margin="60,32" HorizontalAlignment="Left">
+
+            <!-- Section Header -->
+            <Border Background="{StaticResource PrimaryAccentBrush}"
+                    CornerRadius="6" Padding="20,12" Margin="0,0,0,24">
+                <TextBlock Style="{StaticResource StepHeader}" Text="Review &amp; Process" />
+            </Border>
+
+            <!-- Project Info Section -->
+            <TextBlock Text="Project"
+                       FontFamily="{StaticResource MontserratFont}"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource HeadingTextBrush}"
+                       Margin="0,0,0,8" />
+            <Border Background="#F9F9F9"
+                    BorderBrush="{StaticResource LightBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16,12"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Project Name"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding ProjectName}"
+                               Style="{StaticResource BodyLabel}" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Client"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding ClientName}"
+                               Style="{StaticResource BodyLabel}" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Email"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ClientEmail}"
+                               Style="{StaticResource BodyLabel}" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Output Folder"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding OutputFolder}"
+                               Style="{StaticResource BodyLabel}" TextWrapping="Wrap" />
+                </Grid>
+            </Border>
+
+            <!-- File Section -->
+            <TextBlock Text="Source File"
+                       FontFamily="{StaticResource MontserratFont}"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource HeadingTextBrush}"
+                       Margin="0,0,0,8" />
+            <Border Background="#F9F9F9"
+                    BorderBrush="{StaticResource LightBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16,12"
+                    Margin="0,0,0,20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="File Path"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding FilePath}"
+                               Style="{StaticResource BodyLabel}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Resolution"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Resolution}"
+                               Style="{StaticResource BodyLabel}" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Codec"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Codec}"
+                               Style="{StaticResource BodyLabel}" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Duration"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Duration}"
+                               Style="{StaticResource BodyLabel}" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="4" Grid.Column="0" Text="Output File Name"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" />
+                    <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding OutputFileName}"
+                               Style="{StaticResource BodyLabel}" />
+                </Grid>
+            </Border>
+
+            <!-- Metadata Section -->
+            <TextBlock Text="Metadata"
+                       FontFamily="{StaticResource MontserratFont}"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource HeadingTextBrush}"
+                       Margin="0,0,0,8" />
+            <Border Background="#F9F9F9"
+                    BorderBrush="{StaticResource LightBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16,12"
+                    Margin="0,0,0,32">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="140" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="0" Text="Main Title"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding MainTitle}"
+                               Style="{StaticResource BodyLabel}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="1" Grid.Column="0" Text="Sub Title"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SubTitle}"
+                               Style="{StaticResource BodyLabel}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="2" Grid.Column="0" Text="Description"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Description}"
+                               Style="{StaticResource BodyLabel}" TextWrapping="Wrap" Margin="0,0,0,6" />
+
+                    <TextBlock Grid.Row="3" Grid.Column="0" Text="Tape ID"
+                               Style="{StaticResource BodyLabel}" FontWeight="Bold" />
+                    <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding OriginalTapeId}"
+                               Style="{StaticResource BodyLabel}" />
+                </Grid>
+            </Border>
+
+            <!-- Process Button -->
+            <Button Style="{StaticResource CtaButton}"
+                    Content="Process Video"
+                    Command="{Binding ProcessVideoCommand}"
+                    HorizontalAlignment="Center"
+                    Padding="48,16"
+                    FontSize="18" />
+
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

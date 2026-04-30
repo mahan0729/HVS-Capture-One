@@ -1,0 +1,78 @@
+<UserControl x:Class="HVSCaptureOne.App.Views.Wizard.ProjectWizardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vmw="clr-namespace:HVSCaptureOne.App.ViewModels.Wizard"
+             xmlns:vw="clr-namespace:HVSCaptureOne.App.Views.Wizard"
+             Background="{StaticResource AppBackgroundBrush}">
+
+    <UserControl.Resources>
+        <!-- Step DataTemplates scoped to the wizard -->
+        <DataTemplate DataType="{x:Type vmw:ProjectInfoStepViewModel}">
+            <vw:ProjectInfoStepView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmw:FileImportStepViewModel}">
+            <vw:FileImportStepView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmw:FileNamingStepViewModel}">
+            <vw:FileNamingStepView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmw:MetadataFormStepViewModel}">
+            <vw:MetadataFormStepView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmw:ReviewStepViewModel}">
+            <vw:ReviewStepView />
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="52" />   <!-- Step indicator bar -->
+            <RowDefinition Height="*" />    <!-- Step content -->
+            <RowDefinition Height="64" />   <!-- Navigation buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Step Indicator Bar -->
+        <Border Grid.Row="0" Background="{StaticResource SecondaryAccentBrush}">
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center">
+                <TextBlock Style="{StaticResource StepHeader}"
+                           Text="New Project  —  " FontSize="14" />
+                <TextBlock Style="{StaticResource StepHeader}"
+                           Text="{Binding StepLabel}" FontSize="14" />
+            </StackPanel>
+        </Border>
+
+        <!-- Current Step Content -->
+        <ContentControl Grid.Row="1" Content="{Binding CurrentStep}" />
+
+        <!-- Navigation Buttons -->
+        <Border Grid.Row="2"
+                BorderBrush="{StaticResource LightBorderBrush}"
+                BorderThickness="0,1,0,0"
+                Padding="24,0">
+            <Grid>
+                <Button Style="{StaticResource SecondaryButton}"
+                        Content="Cancel"
+                        Command="{Binding CancelCommand}"
+                        HorizontalAlignment="Left" />
+
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+                    <Button Style="{StaticResource SecondaryButton}"
+                            Content="← Back"
+                            Command="{Binding BackCommand}"
+                            Margin="0,0,12,0"
+                            Visibility="{Binding IsFirstStep,
+                                         Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                    <Button Style="{StaticResource PrimaryButton}"
+                            Content="Next →"
+                            Command="{Binding NextCommand}"
+                            Visibility="{Binding IsLastStep,
+                                         Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

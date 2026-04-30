@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="HVSCaptureOne.App/HVSCaptureOne.App.csproj" />
+  <Project Path="HVSCaptureOne.Core/HVSCaptureOne.Core.csproj" />
+</Solution>

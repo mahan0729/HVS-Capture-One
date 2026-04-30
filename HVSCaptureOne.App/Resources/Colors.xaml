@@ -1,0 +1,28 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- HVS Brand Colors -->
+    <Color x:Key="PrimaryAccent">#19AFE6</Color>
+    <Color x:Key="SecondaryAccent">#087DB0</Color>
+    <Color x:Key="CtaYellow">#FCEE21</Color>
+    <Color x:Key="ErrorRed">#EF4223</Color>
+    <Color x:Key="SuccessGreen">#42AD49</Color>
+    <Color x:Key="AppBackground">#FFFFFF</Color>
+    <Color x:Key="BodyText">#767676</Color>
+    <Color x:Key="HeadingText">#242424</Color>
+    <Color x:Key="LightBorder">#E0E0E0</Color>
+    <Color x:Key="DragDropBackground">#F5FBFE</Color>
+
+    <!-- Brushes -->
+    <SolidColorBrush x:Key="PrimaryAccentBrush"     Color="{StaticResource PrimaryAccent}" />
+    <SolidColorBrush x:Key="SecondaryAccentBrush"   Color="{StaticResource SecondaryAccent}" />
+    <SolidColorBrush x:Key="CtaYellowBrush"         Color="{StaticResource CtaYellow}" />
+    <SolidColorBrush x:Key="ErrorRedBrush"           Color="{StaticResource ErrorRed}" />
+    <SolidColorBrush x:Key="SuccessGreenBrush"       Color="{StaticResource SuccessGreen}" />
+    <SolidColorBrush x:Key="AppBackgroundBrush"      Color="{StaticResource AppBackground}" />
+    <SolidColorBrush x:Key="BodyTextBrush"           Color="{StaticResource BodyText}" />
+    <SolidColorBrush x:Key="HeadingTextBrush"        Color="{StaticResource HeadingText}" />
+    <SolidColorBrush x:Key="LightBorderBrush"        Color="{StaticResource LightBorder}" />
+    <SolidColorBrush x:Key="DragDropBackgroundBrush" Color="{StaticResource DragDropBackground}" />
+
+</ResourceDictionary>

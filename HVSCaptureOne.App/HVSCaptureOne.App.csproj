@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\HVSCaptureOne.Core\HVSCaptureOne.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\tools\ffprobe.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Fonts\Montserrat-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Montserrat-Bold.ttf" />
+    <Resource Include="Assets\Fonts\Lato-Regular.ttf" />
+    <Resource Include="Assets\Fonts\Lato-Bold.ttf" />
+    <Resource Include="Assets\hvs_logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+</Project>

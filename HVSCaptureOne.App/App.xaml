@@ -1,0 +1,36 @@
+<Application x:Class="HVSCaptureOne.App.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:HVSCaptureOne.App.ViewModels"
+             xmlns:vmw="clr-namespace:HVSCaptureOne.App.ViewModels.Wizard"
+             xmlns:views="clr-namespace:HVSCaptureOne.App.Views"
+             xmlns:viewsw="clr-namespace:HVSCaptureOne.App.Views.Wizard"
+             xmlns:conv="clr-namespace:HVSCaptureOne.App.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Fonts.xaml" />
+                <ResourceDictionary Source="Resources/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Value Converters -->
+            <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+            <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter" />
+            <conv:InverseBoolConverter x:Key="InverseBoolConverter" />
+            <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter" />
+
+            <!-- DataTemplates: map each ViewModel to its View -->
+            <DataTemplate DataType="{x:Type vm:UserProfileSetupViewModel}">
+                <views:UserProfileSetupView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+                <views:DashboardView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vmw:ProjectWizardViewModel}">
+                <viewsw:ProjectWizardView />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

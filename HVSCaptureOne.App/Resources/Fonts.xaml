@@ -1,0 +1,8 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Bundled font families from Assets/Fonts/ -->
+    <FontFamily x:Key="MontserratFont">pack://application:,,,/Assets/Fonts/#Montserrat</FontFamily>
+    <FontFamily x:Key="LatoFont">pack://application:,,,/Assets/Fonts/#Lato</FontFamily>
+
+</ResourceDictionary>

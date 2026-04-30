@@ -1,0 +1,35 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pandoc --version)",
+      "Bash(python -c \"import docx; print\\('python-docx available'\\)\")",
+      "Bash(pip install:*)",
+      "Bash(python \"C:\\\\Users\\\\mahan\\\\.claude\\\\plans\\\\generate_doc.py\")",
+      "Bash(python3)",
+      "Bash(cd /tmp)",
+      "Bash(unzip -q \"/c/Source/HVS Capture 1/HVS_Capture1_Architectural_Plan.docx\" -d hvs_plan)",
+      "Bash(find:*)",
+      "WebSearch",
+      "Bash(where AtomicParsley)",
+      "Bash(where ffprobe:*)",
+      "Bash(ffprobe -v quiet -print_format json -show_format -show_streams \"D:\\\\pasotti_sandy01_web.mp4\")",
+      "Bash(ffprobe -v quiet -print_format json -show_format \"D:\\\\pasotti_sandy01_web.mp4\")",
+      "Bash(python -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('format',{}\\).get\\('tags',{}\\), indent=2\\)\\)\")",
+      "Bash(ffprobe -v debug \"D:\\\\pasotti_sandy01_web.mp4\")",
+      "Bash(python3:*)",
+      "Bash(where exiftool:*)",
+      "Bash(where mp4dump:*)",
+      "Bash(where mp4info:*)",
+      "Bash(where mkvinfo:*)",
+      "Bash(rm HVS_Capture1_Architectural_Plan_BACKUP.docx)",
+      "Bash(ls *.docx)",
+      "WebFetch(domain:www.homevideostudio.com)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln:*)",
+      "Bash(dotnet add:*)",
+      "Bash(dotnet script:*)",
+      "Bash(dotnet tool:*)",
+      "Bash(dotnet build:*)"
+    ]
+  }
+}

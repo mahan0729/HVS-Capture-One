@@ -1,0 +1,36 @@
+<UserControl x:Class="HVSCaptureOne.App.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Background="{StaticResource AppBackgroundBrush}">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="400">
+
+            <!-- HVS Logo -->
+            <Image Source="/Assets/hvs_logo.png"
+                   Height="120" Width="120"
+                   HorizontalAlignment="Center"
+                   Margin="0,0,0,24" />
+
+            <!-- App Title -->
+            <TextBlock Style="{StaticResource SectionHeader}"
+                       Text="HVS Capture One"
+                       FontSize="28"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,8" />
+
+            <TextBlock Style="{StaticResource BodyLabel}"
+                       Text="Video Archival Authoring Software"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,40" />
+
+            <!-- New Project Button -->
+            <Button Style="{StaticResource PrimaryButton}"
+                    Content="+ New Project"
+                    Command="{Binding NewProjectCommand}"
+                    FontSize="16"
+                    Padding="40,14"
+                    HorizontalAlignment="Center" />
+
+        </StackPanel>
+    </Grid>
+</UserControl>
