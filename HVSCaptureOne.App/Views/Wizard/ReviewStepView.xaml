@@ -161,10 +161,79 @@
             <!-- Process Button -->
             <Button Style="{StaticResource CtaButton}"
                     Content="Process Video"
-                    Command="{Binding ProcessVideoCommand}"
+                    Command="{Binding ProcessVideoAsyncCommand}"
+                    IsEnabled="{Binding CanProcess}"
                     HorizontalAlignment="Center"
                     Padding="48,16"
                     FontSize="18" />
+
+            <!-- Processing Status -->
+            <Border Margin="0,20,0,0"
+                    Visibility="{Binding IsProcessing,
+                                         Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="{StaticResource DragDropBackgroundBrush}"
+                    BorderBrush="{StaticResource LightBorderBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16,12">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="⏳ "
+                               FontSize="16"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <TextBlock Text="{Binding ProcessingStatus}"
+                               Style="{StaticResource BodyLabel}"
+                               VerticalAlignment="Center"
+                               FontSize="14" />
+                </StackPanel>
+            </Border>
+
+            <!-- Success Result -->
+            <Border Margin="0,20,0,0"
+                    Visibility="{Binding IsComplete,
+                                         Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="#F0FFF4"
+                    BorderBrush="{StaticResource SuccessGreenBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16,14">
+                <StackPanel>
+                    <TextBlock Text="Processing complete."
+                               Foreground="{StaticResource SuccessGreenBrush}"
+                               FontFamily="{StaticResource MontserratFont}"
+                               FontWeight="Bold"
+                               FontSize="14"
+                               Margin="0,0,0,8" />
+                    <TextBlock Text="{Binding OutputPath}"
+                               Style="{StaticResource BodyLabel}"
+                               TextWrapping="Wrap"
+                               FontSize="13" />
+                </StackPanel>
+            </Border>
+
+            <!-- Error Result -->
+            <Border Margin="0,20,0,0"
+                    Visibility="{Binding HasError,
+                                         Converter={StaticResource BoolToVisibilityConverter}}"
+                    Background="#FFF0F0"
+                    BorderBrush="{StaticResource ErrorRedBrush}"
+                    BorderThickness="1"
+                    CornerRadius="6"
+                    Padding="16,14">
+                <StackPanel>
+                    <TextBlock Text="Processing failed."
+                               Foreground="{StaticResource ErrorRedBrush}"
+                               FontFamily="{StaticResource MontserratFont}"
+                               FontWeight="Bold"
+                               FontSize="14"
+                               Margin="0,0,0,8" />
+                    <TextBlock Text="{Binding ProcessingStatus}"
+                               Foreground="{StaticResource ErrorRedBrush}"
+                               Style="{StaticResource BodyLabel}"
+                               TextWrapping="Wrap"
+                               FontSize="13" />
+                </StackPanel>
+            </Border>
 
         </StackPanel>
     </ScrollViewer>

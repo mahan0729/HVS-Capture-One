@@ -53,6 +53,13 @@ public partial class FileImportStepViewModel : ObservableObject
     public bool HasFile => !string.IsNullOrEmpty(FilePath);
 
     /// <summary>
+    /// The raw FFprobe result for the accepted file.
+    /// Null until a valid file has been accepted.
+    /// Consumed by ReviewStepViewModel to populate VideoMetadata.
+    /// </summary>
+    public HVSCaptureOne.Core.Models.VideoProbeResult? ProbeResult { get; private set; }
+
+    /// <summary>
     /// Opens a file browser dialog filtered to MP4 files.
     /// Runs FFprobe and validation on the selected file.
     /// </summary>
@@ -113,6 +120,7 @@ public partial class FileImportStepViewModel : ObservableObject
             }
 
             FilePath           = path;
+            ProbeResult        = probe;
             DetectedResolution = $"{probe.Width}x{probe.Height}";
             DetectedCodec      = probe.CodecName.ToUpper();
             DetectedDuration   = $"{(int)probe.Duration.TotalMinutes}m {probe.Duration.Seconds}s";
