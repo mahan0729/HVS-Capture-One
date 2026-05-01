@@ -1,4 +1,5 @@
 using HVSCaptureOne.Core.Models;
+using Serilog;
 
 namespace HVSCaptureOne.Core.Services;
 
@@ -24,35 +25,95 @@ public class ProcessingService
     /// <param name="progress">Optional progress reporter for UI feedback.</param>
     /// <returns>ProcessingResult indicating success or failure with an error message.</returns>
     public ProcessingResult Process(
-        string          sourcePath,
-        string          outputPath,
-        Project         project,
-        VideoAsset      asset,
-        UserProfile     profile,
+        string             sourcePath,
+        string             outputPath,
+        Project            project,
+        VideoAsset         asset,
+        UserProfile        profile,
         IProgress<string>? progress = null)
     {
+        Log.Information(
+            "Processing started. Project={ProjectId} Source={Source} Output={Output}",
+            project.ProjectId, sourcePath, outputPath);
+
         try
         {
-            // Ensure the output directory exists
+            // Pre-flight: verify source still exists
+            if (!File.Exists(sourcePath))
+                return Fail(asset, $"Source file no longer exists: {sourcePath}");
+
+            // Ensure output directory exists
             string? outputDir = Path.GetDirectoryName(outputPath);
             if (!string.IsNullOrEmpty(outputDir))
                 Directory.CreateDirectory(outputDir);
 
+            // Verify output folder is writable with a quick probe
+            VerifyOutputFolderWritable(outputDir ?? outputPath);
+
             progress?.Report("Building metadata atoms…");
+            Log.Debug("Building DVA atom list for project {ProjectId}", project.ProjectId);
             var atoms = _atomBuilder.Build(project, asset, profile, DateTime.Now);
+            Log.Debug("Built {Count} atoms", atoms.Count);
 
             progress?.Report("Writing output file…");
+            Log.Debug("Writing output MP4: {Output}", outputPath);
             _writer.Write(sourcePath, outputPath, atoms);
 
             asset.OutputFilePath = outputPath;
             asset.Status         = AssetStatus.Complete;
 
+            var fileInfo = new FileInfo(outputPath);
+            Log.Information(
+                "Processing complete. Output={Output} Size={Size:N0} bytes",
+                outputPath, fileInfo.Length);
+
             return ProcessingResult.Ok(outputPath);
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            const string msg = "Access denied to the output folder. Check folder permissions.";
+            Log.Error(ex, msg);
+            return Fail(asset, msg);
+        }
+        catch (IOException ex)
+        {
+            string msg = $"File I/O error: {ex.Message}";
+            Log.Error(ex, "File I/O error during processing");
+            return Fail(asset, msg);
+        }
+        catch (InvalidOperationException ex)
+        {
+            Log.Error(ex, "Processing error: {Message}", ex.Message);
+            return Fail(asset, ex.Message);
         }
         catch (Exception ex)
         {
-            asset.Status = AssetStatus.Failed;
-            return ProcessingResult.Fail(ex.Message);
+            Log.Error(ex, "Unexpected error during processing");
+            return Fail(asset, $"Unexpected error: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// Marks the asset as failed and returns a failed ProcessingResult.
+    /// </summary>
+    /// <returns></returns>
+    private static ProcessingResult Fail(VideoAsset asset, string message)
+    {
+        asset.Status = AssetStatus.Failed;
+        Log.Warning("Processing failed: {Message}", message);
+        return ProcessingResult.Fail(message);
+    }
+
+    /// <summary>
+    /// Writes and immediately deletes a small probe file to confirm the output
+    /// folder is writable before beginning a long processing operation.
+    /// Throws UnauthorizedAccessException if the folder is not writable.
+    /// </summary>
+    /// <returns></returns>
+    private static void VerifyOutputFolderWritable(string folderPath)
+    {
+        string probe = Path.Combine(folderPath, $".hvs_write_check_{Guid.NewGuid():N}");
+        File.WriteAllText(probe, string.Empty);
+        File.Delete(probe);
     }
 }

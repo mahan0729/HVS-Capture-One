@@ -1,6 +1,7 @@
 using System.Buffers.Binary;
 using System.Text;
 using HVSCaptureOne.Core.Models;
+using Serilog;
 
 namespace HVSCaptureOne.Core.Services;
 
@@ -37,14 +38,26 @@ public class Mp4BoxWriter
         string outputPath,
         IReadOnlyList<DvaAtomPayload> atoms)
     {
+        Log.Debug("Mp4BoxWriter: source={Source} output={Output}", sourcePath, outputPath);
+
         using var source = File.OpenRead(sourcePath);
 
         // 1. Locate the top-level boxes (ftyp, moov, mdat)
         var topLevel = ReadBoxHeaders(source, 0, source.Length);
 
-        var ftyp = topLevel.First(b => b.Type == "ftyp");
-        var moov = topLevel.First(b => b.Type == "moov");
-        var mdat = topLevel.First(b => b.Type == "mdat");
+        var ftyp = topLevel.FirstOrDefault(b => b.Type == "ftyp");
+        var moov = topLevel.FirstOrDefault(b => b.Type == "moov");
+        var mdat = topLevel.FirstOrDefault(b => b.Type == "mdat");
+
+        if (moov.Type != "moov")
+            throw new InvalidOperationException("Source file is missing the moov box. Is this a valid MP4?");
+        if (mdat.Type != "mdat")
+            throw new InvalidOperationException("Source file is missing the mdat box. Is this a valid MP4?");
+        if (ftyp.Type != "ftyp")
+            throw new InvalidOperationException("Source file is missing the ftyp box. Is this a valid MP4?");
+
+        Log.Debug("Boxes found — ftyp:{FtypSize} moov:{MoovSize} mdat:{MdatSize}",
+            ftyp.TotalSize, moov.TotalSize, mdat.TotalSize);
 
         // 2. Read entire moov box into memory (typically 4–10 MB)
         source.Seek(moov.Offset, SeekOrigin.Begin);
@@ -63,8 +76,12 @@ public class Mp4BoxWriter
         long newMdatOffset = ftyp.TotalSize + newMoovBytes.LongLength;
         long delta = newMdatOffset - mdat.Offset;
 
+        Log.Debug("Moov resized: {OldSize} → {NewSize} bytes. Offset delta: {Delta}",
+            moov.TotalSize, newMoovBytes.LongLength, delta);
+
         // 6. Patch stco / co64 entries in newMoovBytes so players can find the samples
         PatchChunkOffsets(newMoovBytes, delta);
+        Log.Debug("Chunk offsets patched");
 
         // 7. Stream the output file
         using var output = File.Create(outputPath);
@@ -76,6 +93,8 @@ public class Mp4BoxWriter
 
         source.Seek(mdat.Offset, SeekOrigin.Begin);
         CopyExact(source, output, mdat.TotalSize);   // mdat (streamed, not buffered in RAM)
+
+        Log.Debug("Mp4BoxWriter: write complete");
     }
 
     // ── Box header parsing ────────────────────────────────────────────────────
