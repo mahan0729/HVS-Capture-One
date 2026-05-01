@@ -73,6 +73,7 @@ public partial class ReviewStepViewModel : ObservableObject
     /// <summary>True while the processing pipeline is running.</summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(CanProcess))]
+    [NotifyPropertyChangedFor(nameof(ProcessButtonText))]
     private bool _isProcessing;
 
     /// <summary>Status message shown during and after processing.</summary>
@@ -89,6 +90,9 @@ public partial class ReviewStepViewModel : ObservableObject
 
     /// <summary>False while processing is running — disables the Process button.</summary>
     public bool CanProcess => !IsProcessing;
+
+    /// <summary>Label shown on the Process button — changes while processing is running.</summary>
+    public string ProcessButtonText => IsProcessing ? "Video Processing..." : "Process Video";
 
     // ── Process command ───────────────────────────────────────────────────────
 
@@ -133,7 +137,14 @@ public partial class ReviewStepViewModel : ObservableObject
         {
             IsComplete       = true;
             OutputPath       = result.OutputPath;
-            ProcessingStatus = "Processing complete.";
+
+            for (int i = 10; i > 0; i--)
+            {
+                ProcessingStatus = $"Processing complete. Returning to main screen in {i}…";
+                await Task.Delay(1000);
+            }
+
+            _main.NavigateTo(new DashboardViewModel(_main));
         }
         else
         {

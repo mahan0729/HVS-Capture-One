@@ -128,6 +128,13 @@ public partial class ProjectWizardViewModel : ObservableObject
     private void Cancel() => _main.NavigateTo(new DashboardViewModel(_main));
 
     /// <summary>
+    /// Shuts down the application.
+    /// </summary>
+    /// <returns></returns>
+    [RelayCommand]
+    private void Exit() => System.Windows.Application.Current.Shutdown();
+
+    /// <summary>
     /// Notifies the Next and Back commands to re-evaluate their CanExecute state.
     /// Called by step ViewModels when their validation state changes.
     /// </summary>

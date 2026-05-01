@@ -6,7 +6,7 @@
     <Style x:Key="SectionHeader" TargetType="TextBlock">
         <Setter Property="FontFamily"   Value="{StaticResource MontserratFont}" />
         <Setter Property="FontWeight"   Value="Bold" />
-        <Setter Property="FontSize"     Value="20" />
+        <Setter Property="FontSize"     Value="22" />
         <Setter Property="Foreground"   Value="{StaticResource HeadingTextBrush}" />
         <Setter Property="Margin"       Value="0,0,0,12" />
     </Style>
@@ -14,20 +14,20 @@
     <Style x:Key="StepHeader" TargetType="TextBlock">
         <Setter Property="FontFamily"   Value="{StaticResource MontserratFont}" />
         <Setter Property="FontWeight"   Value="Bold" />
-        <Setter Property="FontSize"     Value="16" />
+        <Setter Property="FontSize"     Value="18" />
         <Setter Property="Foreground"   Value="White" />
     </Style>
 
     <Style x:Key="BodyLabel" TargetType="TextBlock">
         <Setter Property="FontFamily"   Value="{StaticResource LatoFont}" />
-        <Setter Property="FontSize"     Value="14" />
+        <Setter Property="FontSize"     Value="16" />
         <Setter Property="Foreground"   Value="{StaticResource BodyTextBrush}" />
         <Setter Property="Margin"       Value="0,0,0,4" />
     </Style>
 
     <Style x:Key="FieldLabel" TargetType="TextBlock">
         <Setter Property="FontFamily"   Value="{StaticResource LatoFont}" />
-        <Setter Property="FontSize"     Value="13" />
+        <Setter Property="FontSize"     Value="15" />
         <Setter Property="FontWeight"   Value="Bold" />
         <Setter Property="Foreground"   Value="{StaticResource HeadingTextBrush}" />
         <Setter Property="Margin"       Value="0,8,0,3" />
@@ -35,7 +35,7 @@
 
     <Style x:Key="HintLabel" TargetType="TextBlock">
         <Setter Property="FontFamily"   Value="{StaticResource LatoFont}" />
-        <Setter Property="FontSize"     Value="12" />
+        <Setter Property="FontSize"     Value="14" />
         <Setter Property="Foreground"   Value="{StaticResource BodyTextBrush}" />
         <Setter Property="FontStyle"    Value="Italic" />
     </Style>
@@ -44,7 +44,7 @@
 
     <Style x:Key="FormTextBox" TargetType="TextBox">
         <Setter Property="FontFamily"        Value="{StaticResource LatoFont}" />
-        <Setter Property="FontSize"          Value="14" />
+        <Setter Property="FontSize"          Value="16" />
         <Setter Property="Foreground"        Value="{StaticResource HeadingTextBrush}" />
         <Setter Property="Background"        Value="White" />
         <Setter Property="BorderBrush"       Value="{StaticResource LightBorderBrush}" />
@@ -83,7 +83,7 @@
     <Style x:Key="PrimaryButton" TargetType="Button">
         <Setter Property="FontFamily"      Value="{StaticResource MontserratFont}" />
         <Setter Property="FontWeight"      Value="Bold" />
-        <Setter Property="FontSize"        Value="14" />
+        <Setter Property="FontSize"        Value="16" />
         <Setter Property="Foreground"      Value="White" />
         <Setter Property="Background"      Value="{StaticResource PrimaryAccentBrush}" />
         <Setter Property="BorderThickness" Value="0" />
@@ -115,7 +115,7 @@
     <Style x:Key="SecondaryButton" TargetType="Button">
         <Setter Property="FontFamily"      Value="{StaticResource MontserratFont}" />
         <Setter Property="FontWeight"      Value="Bold" />
-        <Setter Property="FontSize"        Value="14" />
+        <Setter Property="FontSize"        Value="16" />
         <Setter Property="Foreground"      Value="{StaticResource PrimaryAccentBrush}" />
         <Setter Property="Background"      Value="White" />
         <Setter Property="BorderBrush"     Value="{StaticResource PrimaryAccentBrush}" />
@@ -149,7 +149,7 @@
     <Style x:Key="CtaButton" TargetType="Button">
         <Setter Property="FontFamily"      Value="{StaticResource MontserratFont}" />
         <Setter Property="FontWeight"      Value="Bold" />
-        <Setter Property="FontSize"        Value="16" />
+        <Setter Property="FontSize"        Value="18" />
         <Setter Property="Foreground"      Value="{StaticResource HeadingTextBrush}" />
         <Setter Property="Background"      Value="{StaticResource CtaYellowBrush}" />
         <Setter Property="BorderThickness" Value="0" />

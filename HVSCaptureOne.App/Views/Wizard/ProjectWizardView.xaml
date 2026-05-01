@@ -69,8 +69,12 @@
                     <Button Style="{StaticResource PrimaryButton}"
                             Content="Next →"
                             Command="{Binding NextCommand}"
+                            Margin="0,0,12,0"
                             Visibility="{Binding IsLastStep,
                                          Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                    <Button Style="{StaticResource SecondaryButton}"
+                            Content="Exit"
+                            Command="{Binding ExitCommand}" />
                 </StackPanel>
             </Grid>
         </Border>

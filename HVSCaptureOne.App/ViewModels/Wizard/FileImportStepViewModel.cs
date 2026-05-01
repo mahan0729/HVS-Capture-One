@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using HVSCaptureOne.Core.Services;
 using Microsoft.Win32;
+using Serilog;
 
 namespace HVSCaptureOne.App.ViewModels.Wizard;
 
@@ -67,6 +68,11 @@ public partial class FileImportStepViewModel : ObservableObject
     [RelayCommand]
     private void BrowseFile()
     {
+        // Clear any previous error so the UI resets before the dialog opens
+        IsError       = false;
+        IsSuccess     = false;
+        StatusMessage = string.Empty;
+
         var dialog = new OpenFileDialog
         {
             Title  = "Select MP4 File",
@@ -113,6 +119,7 @@ public partial class FileImportStepViewModel : ObservableObject
 
             if (!result.IsValid)
             {
+                Log.Warning("Validation failed for {Path}: {Reason}", path, result.ErrorMessage);
                 StatusMessage = result.ErrorMessage;
                 IsError       = true;
                 _wizard.RefreshNavigation();
@@ -129,6 +136,7 @@ public partial class FileImportStepViewModel : ObservableObject
         }
         catch (Exception ex)
         {
+            Log.Error(ex, "FileImport failed for {Path}", path);
             StatusMessage = $"Could not read file: {ex.Message}";
             IsError       = true;
         }

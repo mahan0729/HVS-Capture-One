@@ -49,11 +49,19 @@
                     CornerRadius="6"
                     Padding="14,10"
                     Margin="0,0,0,12">
-                <TextBlock Text="{Binding StatusMessage}"
-                           Foreground="{StaticResource ErrorRedBrush}"
-                           FontFamily="{StaticResource LatoFont}"
-                           FontSize="14"
-                           TextWrapping="Wrap" />
+                <StackPanel>
+                    <TextBlock Text="{Binding StatusMessage}"
+                               Foreground="{StaticResource ErrorRedBrush}"
+                               FontFamily="{StaticResource LatoFont}"
+                               FontSize="14"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,8" />
+                    <TextBlock Text="Use the Browse button above to select a different file."
+                               Foreground="{StaticResource ErrorRedBrush}"
+                               FontFamily="{StaticResource LatoFont}"
+                               FontSize="12"
+                               FontStyle="Italic" />
+                </StackPanel>
             </Border>
 
             <!-- Success Status + File Info -->
