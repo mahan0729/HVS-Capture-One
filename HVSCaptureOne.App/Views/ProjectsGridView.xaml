@@ -10,7 +10,8 @@
             <Setter Property="FontFamily"      Value="{StaticResource MontserratFont}" />
             <Setter Property="FontWeight"      Value="Bold" />
             <Setter Property="FontSize"        Value="11" />
-            <Setter Property="Foreground"      Value="White" />
+            <Setter Property="Background"      Value="Transparent" />
+            <Setter Property="Foreground"      Value="Black" />
             <Setter Property="BorderThickness" Value="0" />
             <Setter Property="Padding"         Value="10,4" />
             <Setter Property="Cursor"          Value="Hand" />
@@ -19,13 +20,16 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
                         <Border Background="{TemplateBinding Background}"
-                                CornerRadius="4"
+                                BorderThickness="0"
                                 Padding="{TemplateBinding Padding}">
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Opacity" Value="0.8" />
+                                <Setter Property="Opacity" Value="0.65" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.4" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -33,18 +37,10 @@
             </Setter>
         </Style>
 
-        <Style x:Key="GridEditBtn"   TargetType="Button" BasedOn="{StaticResource GridBtn}">
-            <Setter Property="Background" Value="{StaticResource PrimaryAccentBrush}" />
-        </Style>
-        <Style x:Key="GridSaveBtn"   TargetType="Button" BasedOn="{StaticResource GridBtn}">
-            <Setter Property="Background" Value="{StaticResource SuccessGreenBrush}" />
-        </Style>
-        <Style x:Key="GridCancelBtn" TargetType="Button" BasedOn="{StaticResource GridBtn}">
-            <Setter Property="Background" Value="{StaticResource BodyTextBrush}" />
-        </Style>
-        <Style x:Key="GridDeleteBtn" TargetType="Button" BasedOn="{StaticResource GridBtn}">
-            <Setter Property="Background" Value="{StaticResource ErrorRedBrush}" />
-        </Style>
+        <Style x:Key="GridEditBtn"   TargetType="Button" BasedOn="{StaticResource GridBtn}" />
+        <Style x:Key="GridSaveBtn"   TargetType="Button" BasedOn="{StaticResource GridBtn}" />
+        <Style x:Key="GridCancelBtn" TargetType="Button" BasedOn="{StaticResource GridBtn}" />
+        <Style x:Key="GridDeleteBtn" TargetType="Button" BasedOn="{StaticResource GridBtn}" />
 
         <!-- DataGrid column header -->
         <Style TargetType="DataGridColumnHeader">
@@ -104,9 +100,9 @@
                 Padding="24,14">
             <Grid>
                 <TextBlock Style="{StaticResource StepHeader}"
-                           Text="HVS Capture One — Video Library"
+                           Text="Video Library"
                            VerticalAlignment="Center" />
-                <Button Style="{StaticResource CtaButton}"
+                <Button Style="{StaticResource SecondaryButton}"
                         Content="+ New Project"
                         Command="{Binding NewProjectCommand}"
                         HorizontalAlignment="Right"
@@ -268,21 +264,33 @@
                                 <StackPanel Orientation="Horizontal"
                                             VerticalAlignment="Center"
                                             Margin="6,4">
-                                    <!-- Edit (read mode only) — pencil icon -->
+                                    <!-- Edit (read mode only) -->
                                     <Button Style="{StaticResource GridEditBtn}"
                                             Command="{Binding EditCommand}"
-                                            ToolTip="Edit"
                                             Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}">
-                                        <Viewbox Width="16" Height="16">
-                                            <Canvas Width="20" Height="20">
-                                                <Path Fill="White"
-                                                      Data="M 15,3 L 17,5 L 6,16 L 3,17 L 4,14 Z" />
-                                                <Path Fill="White" Opacity="0.75"
-                                                      Data="M 13,2 L 16,2 L 18,4 L 15,5 Z" />
-                                                <Line X1="4" Y1="14" X2="6" Y2="16"
-                                                      Stroke="White" StrokeThickness="1" Opacity="0.6" />
-                                            </Canvas>
-                                        </Viewbox>
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <Grid Width="20" Height="20">
+                                                <Image Source="/Assets/Edit.png"
+                                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                                <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                                            </Grid>
+                                            <TextBlock Text="Edit"
+                                                       FontFamily="{StaticResource MontserratFont}"
+                                                       FontSize="10"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
                                     </Button>
                                     <!-- Save (edit mode only) -->
                                     <Button Content="Save"
@@ -294,27 +302,32 @@
                                             Style="{StaticResource GridCancelBtn}"
                                             Command="{Binding CancelEditCommand}"
                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <!-- Delete (always visible) — trash can icon -->
+                                    <!-- Delete (always visible) -->
                                     <Button Style="{StaticResource GridDeleteBtn}"
-                                            Command="{Binding DeleteCommand}"
-                                            ToolTip="Delete">
-                                        <Viewbox Width="16" Height="16">
-                                            <Canvas Width="20" Height="20">
-                                                <!-- Handle -->
-                                                <Path Stroke="White" StrokeThickness="1.5" Fill="Transparent"
-                                                      Data="M 8,1 L 8,3 L 12,3 L 12,1" />
-                                                <!-- Lid -->
-                                                <Line X1="3" Y1="4" X2="17" Y2="4"
-                                                      Stroke="White" StrokeThickness="1.5" />
-                                                <!-- Body -->
-                                                <Path Stroke="White" StrokeThickness="1.5" Fill="Transparent"
-                                                      Data="M 5,5 L 6,18 L 14,18 L 15,5 Z" />
-                                                <!-- Slats -->
-                                                <Line X1="8"  Y1="7" X2="8"  Y2="16" Stroke="White" StrokeThickness="1" Opacity="0.75" />
-                                                <Line X1="10" Y1="7" X2="10" Y2="16" Stroke="White" StrokeThickness="1" Opacity="0.75" />
-                                                <Line X1="12" Y1="7" X2="12" Y2="16" Stroke="White" StrokeThickness="1" Opacity="0.75" />
-                                            </Canvas>
-                                        </Viewbox>
+                                            Command="{Binding DeleteCommand}">
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <Grid Width="20" Height="20">
+                                                <Image Source="/Assets/Delete.png"
+                                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                                <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                                            </Grid>
+                                            <TextBlock Text="Delete"
+                                                       FontFamily="{StaticResource MontserratFont}"
+                                                       FontSize="10"
+                                                       Foreground="White"
+                                                       HorizontalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
                                     </Button>
                                 </StackPanel>
                             </DataTemplate>
@@ -349,36 +362,30 @@
             <Button Style="{StaticResource SecondaryButton}"
                     Command="{Binding ExitCommand}"
                     HorizontalAlignment="Right"
-                    Padding="16,8"
-                    ToolTip="Exit">
-                <Viewbox Width="28" Height="28">
-                    <!-- Door icon: frame, panel, knob, and exit arrow -->
-                    <Canvas Width="24" Height="24">
-                        <!-- Door frame (outer) -->
-                        <Rectangle Canvas.Left="2"  Canvas.Top="1"
-                                   Width="14" Height="22"
-                                   Stroke="{StaticResource PrimaryAccentBrush}"
-                                   StrokeThickness="1.5"
-                                   Fill="Transparent" />
-                        <!-- Door panel (inner, inset) -->
-                        <Rectangle Canvas.Left="3.5" Canvas.Top="2.5"
-                                   Width="11" Height="19"
-                                   Stroke="{StaticResource PrimaryAccentBrush}"
-                                   StrokeThickness="1"
-                                   Fill="#EBF7FD" />
-                        <!-- Doorknob -->
-                        <Ellipse Canvas.Left="11" Canvas.Top="11"
-                                 Width="3" Height="3"
-                                 Fill="{StaticResource PrimaryAccentBrush}" />
-                        <!-- Exit arrow (→) to the right of the door -->
-                        <Path Stroke="{StaticResource PrimaryAccentBrush}"
-                              StrokeThickness="1.5"
-                              StrokeStartLineCap="Round"
-                              StrokeEndLineCap="Round"
-                              StrokeLineJoin="Round"
-                              Data="M 18,12 L 22,12 M 19.5,10 L 22,12 L 19.5,14" />
-                    </Canvas>
-                </Viewbox>
+                    Padding="10,6">
+                <StackPanel HorizontalAlignment="Center">
+                    <Grid Width="27" Height="27">
+                        <Image Source="/Assets/Exit.png"
+                               RenderOptions.BitmapScalingMode="HighQuality" />
+                        <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                    </Grid>
+                    <TextBlock Text="Exit"
+                               FontFamily="{StaticResource MontserratFont}"
+                               FontSize="11"
+                               Foreground="Black"
+                               HorizontalAlignment="Center">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
             </Button>
         </Border>
 

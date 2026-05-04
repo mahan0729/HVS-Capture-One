@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
@@ -38,7 +39,12 @@ public partial class ProjectInfoStepViewModel : ObservableObject
     private string _clientLastName = string.Empty;
 
     /// <summary>Gets or sets the client's email address.</summary>
-    [ObservableProperty] private string _clientEmail = string.Empty;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsValid))]
+    private string _clientEmail = string.Empty;
+
+    /// <summary>Validation error message for the email field; empty when valid.</summary>
+    [ObservableProperty] private string _emailError = string.Empty;
 
     /// <summary>Gets or sets the selected output folder path.</summary>
     [ObservableProperty]
@@ -55,13 +61,14 @@ public partial class ProjectInfoStepViewModel : ObservableObject
             : $"{ClientLastName.Trim().ToLower().Replace(" ", "")}_{ClientFirstName.Trim().ToLower().Replace(" ", "")}_01";
 
     /// <summary>
-    /// True when all required fields are filled and the step can proceed.
+    /// True when all required fields are filled, the email is present, and the format is valid.
     /// </summary>
     public bool IsValid =>
         !string.IsNullOrWhiteSpace(ProjectName) &&
         !string.IsNullOrWhiteSpace(ClientFirstName) &&
         !string.IsNullOrWhiteSpace(ClientLastName) &&
-        !string.IsNullOrWhiteSpace(OutputFolder);
+        !string.IsNullOrWhiteSpace(OutputFolder) &&
+        IsEmailValid(ClientEmail);
 
     /// <summary>
     /// Opens a folder browser dialog for the user to select an output folder.
@@ -90,4 +97,29 @@ public partial class ProjectInfoStepViewModel : ObservableObject
     partial void OnClientFirstNameChanged(string value) => _wizard.RefreshNavigation();
     partial void OnClientLastNameChanged(string value)  => _wizard.RefreshNavigation();
     partial void OnOutputFolderChanged(string value)    => _wizard.RefreshNavigation();
+
+    /// <summary>
+    /// Validates the email when the field loses focus (binding fires on LostFocus).
+    /// Sets EmailError when the value is missing or malformed.
+    /// </summary>
+    /// <returns></returns>
+    partial void OnClientEmailChanged(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+            EmailError = "Email is required.";
+        else if (!IsEmailValid(value))
+            EmailError = "Please enter a valid email address.";
+        else
+            EmailError = string.Empty;
+
+        _wizard.RefreshNavigation();
+    }
+
+    /// <summary>
+    /// Returns true when the email is non-empty and matches a basic email pattern.
+    /// </summary>
+    /// <returns></returns>
+    private static bool IsEmailValid(string email) =>
+        !string.IsNullOrWhiteSpace(email) &&
+        Regex.IsMatch(email.Trim(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
 }

@@ -1,4 +1,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using HVSCaptureOne.App.Views;
 
 namespace HVSCaptureOne.App.ViewModels;
 
@@ -21,4 +23,11 @@ public partial class MainViewModel : ObservableObject
     /// </summary>
     /// <returns></returns>
     public void NavigateTo(object viewModel) => CurrentView = viewModel;
+
+    /// <summary>
+    /// Opens the Help modal dialog. Available on every screen via the master banner.
+    /// </summary>
+    /// <returns></returns>
+    [RelayCommand]
+    private void ShowHelp() => new HelpDialog().ShowDialog();
 }

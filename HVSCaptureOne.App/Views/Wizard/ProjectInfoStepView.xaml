@@ -27,9 +27,15 @@
                      Text="{Binding ClientLastName, UpdateSourceTrigger=PropertyChanged}" />
 
             <!-- Client Email -->
-            <TextBlock Style="{StaticResource FieldLabel}" Text="Client Email" />
+            <TextBlock Style="{StaticResource FieldLabel}" Text="Client Email *" />
             <TextBox Style="{StaticResource FormTextBox}"
-                     Text="{Binding ClientEmail, UpdateSourceTrigger=PropertyChanged}" />
+                     Text="{Binding ClientEmail, UpdateSourceTrigger=LostFocus}" />
+            <TextBlock Text="{Binding EmailError}"
+                       Foreground="{StaticResource ErrorRedBrush}"
+                       FontFamily="{StaticResource LatoFont}"
+                       FontSize="13"
+                       Margin="0,3,0,0"
+                       Visibility="{Binding EmailError, Converter={StaticResource StringToVisibilityConverter}}" />
 
             <!-- Project ID (read-only) -->
             <TextBlock Style="{StaticResource FieldLabel}" Text="Project ID (auto-generated)" />
@@ -56,9 +62,32 @@
                          Margin="0,0,8,0" />
                 <Button Grid.Column="1"
                         Style="{StaticResource SecondaryButton}"
-                        Content="Browse…"
                         Command="{Binding BrowseOutputFolderCommand}"
-                        Padding="16,6" />
+                        Padding="10,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Grid Width="36" Height="36">
+                            <Image Source="/Assets/browse.png"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                            <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                        </Grid>
+                        <TextBlock Text="Browse"
+                                   FontFamily="{StaticResource MontserratFont}"
+                                   FontSize="11"
+                                   Foreground="Black"
+                                   HorizontalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
             </Grid>
 
         </StackPanel>

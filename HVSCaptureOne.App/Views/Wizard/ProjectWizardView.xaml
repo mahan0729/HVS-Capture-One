@@ -61,20 +61,92 @@
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center">
                     <Button Style="{StaticResource SecondaryButton}"
-                            Content="← Back"
                             Command="{Binding BackCommand}"
                             Margin="0,0,12,0"
+                            Padding="10,6"
                             Visibility="{Binding IsFirstStep,
-                                         Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                    <Button Style="{StaticResource PrimaryButton}"
-                            Content="Next →"
+                                         Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <Grid Width="36" Height="36">
+                                <Image Source="/Assets/previous.png"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                            </Grid>
+                            <TextBlock Text="Back"
+                                       FontFamily="{StaticResource MontserratFont}"
+                                       FontSize="11"
+                                       Foreground="Black"
+                                       HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource SecondaryButton}"
                             Command="{Binding NextCommand}"
                             Margin="0,0,12,0"
+                            Padding="10,6"
                             Visibility="{Binding IsLastStep,
-                                         Converter={StaticResource InverseBoolToVisibilityConverter}}" />
+                                         Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <Grid Width="36" Height="36">
+                                <Image Source="/Assets/Next.png"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                            </Grid>
+                            <TextBlock Text="Next"
+                                       FontFamily="{StaticResource MontserratFont}"
+                                       FontSize="11"
+                                       Foreground="Black"
+                                       HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Button>
                     <Button Style="{StaticResource SecondaryButton}"
-                            Content="Exit"
-                            Command="{Binding ExitCommand}" />
+                            Command="{Binding ExitCommand}"
+                            Padding="10,6">
+                        <StackPanel HorizontalAlignment="Center">
+                            <Grid Width="27" Height="27">
+                                <Image Source="/Assets/Exit.png"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                                <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                            </Grid>
+                            <TextBlock Text="Exit"
+                                       FontFamily="{StaticResource MontserratFont}"
+                                       FontSize="11"
+                                       Foreground="Black"
+                                       HorizontalAlignment="Center">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </Grid>
         </Border>

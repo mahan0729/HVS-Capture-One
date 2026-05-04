@@ -8,24 +8,63 @@
         Background="{StaticResource AppBackgroundBrush}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="64" />
+            <RowDefinition Height="80" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- Top Banner -->
         <Border Grid.Row="0" Background="{StaticResource PrimaryAccentBrush}">
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Center"
-                        Margin="24,0">
-                <Image Source="/Assets/hvs_logo.png"
-                       Height="40" Width="40"
-                       Margin="0,0,12,0"
-                       VerticalAlignment="Center" />
-                <TextBlock Style="{StaticResource StepHeader}"
-                           Text="HVS Capture One"
-                           FontSize="22"
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Logo + Title — left -->
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Image Source="/Assets/hvs_logo.png"
+                           Height="40" Width="40"
+                           Margin="0,0,12,0"
                            VerticalAlignment="Center" />
-            </StackPanel>
+                    <TextBlock Style="{StaticResource StepHeader}"
+                               Text="HVS Capture One"
+                               FontSize="22"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+
+                <!-- Help button — upper right, always visible -->
+                <Button Grid.Column="1"
+                        Style="{StaticResource SecondaryButton}"
+                        Command="{Binding ShowHelpCommand}"
+                        Padding="8,4"
+                        VerticalAlignment="Center">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Grid Width="32" Height="32">
+                            <Image Source="/Assets/help.png"
+                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                            <Rectangle Fill="#33000000" IsHitTestVisible="False" />
+                        </Grid>
+                        <TextBlock Text="Help"
+                                   FontFamily="{StaticResource MontserratFont}"
+                                   FontSize="11"
+                                   Foreground="Black"
+                                   HorizontalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+            </Grid>
         </Border>
 
         <!-- Main Content Area — swaps between views via DataTemplates -->

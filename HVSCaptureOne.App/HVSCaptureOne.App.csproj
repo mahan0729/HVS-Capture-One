@@ -16,6 +16,13 @@
     <Resource Include="Assets\Fonts\Lato-Regular.ttf" />
     <Resource Include="Assets\Fonts\Lato-Bold.ttf" />
     <Resource Include="Assets\hvs_logo.png" />
+    <Resource Include="Assets\Exit.png" />
+    <Resource Include="Assets\Edit.png" />
+    <Resource Include="Assets\Delete.png" />
+    <Resource Include="Assets\Next.png" />
+    <Resource Include="Assets\previous.png" />
+    <Resource Include="Assets\browse.png" />
+    <Resource Include="Assets\help.png" />
   </ItemGroup>
 
   <ItemGroup>
