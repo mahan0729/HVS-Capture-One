@@ -44,7 +44,7 @@ public partial class App : Application
         if (IsFirstLaunch)
             mainVm.NavigateTo(new UserProfileSetupViewModel(mainVm, profileService));
         else
-            mainVm.NavigateTo(new DashboardViewModel(mainVm));
+            mainVm.NavigateTo(new ProjectsGridViewModel(mainVm));
 
         var window = new MainWindow { DataContext = mainVm };
         window.Show();

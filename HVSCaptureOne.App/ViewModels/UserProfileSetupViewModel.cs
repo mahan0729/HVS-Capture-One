@@ -71,6 +71,6 @@ public partial class UserProfileSetupViewModel : ObservableObject
         };
 
         _profileService.Save(profile);
-        _main.NavigateTo(new DashboardViewModel(_main));
+        _main.NavigateTo(new ProjectsGridViewModel(_main));
     }
 }

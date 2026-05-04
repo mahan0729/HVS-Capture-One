@@ -29,7 +29,11 @@
       "Bash(dotnet add:*)",
       "Bash(dotnet script:*)",
       "Bash(dotnet tool:*)",
-      "Bash(dotnet build:*)"
+      "Bash(dotnet build:*)",
+      "Bash(dotnet nuget list:*)",
+      "Bash(ffprobe:*)",
+      "Bash(C:\\\\Tools\\\\exiftool\\\\exiftool.exe -v3 \"C:\\\\Users\\\\mahan\\\\OneDrive\\\\Documents\\\\_HVS\\\\Output\\\\Hanley_Robert_01.mp4\")",
+      "Bash(\"/c/Tools/exiftool/exiftool.exe\" -v3 \"C:/Users/mahan/OneDrive/Documents/_HVS/Output/Hanley_Robert_01.mp4\")"
     ]
   }
 }

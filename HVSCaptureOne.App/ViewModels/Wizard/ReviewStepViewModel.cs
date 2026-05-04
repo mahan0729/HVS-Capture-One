@@ -16,6 +16,7 @@ public partial class ReviewStepViewModel : ObservableObject
     private readonly MainViewModel          _main;
     private readonly ProcessingService      _processingService = new();
     private readonly UserProfileService     _profileService    = new();
+    private readonly ProjectService         _projectService    = new();
 
     /// <summary>
     /// Initializes the Review step with references to the wizard and main navigation.
@@ -135,8 +136,11 @@ public partial class ReviewStepViewModel : ObservableObject
 
         if (result.Success)
         {
-            IsComplete       = true;
-            OutputPath       = result.OutputPath;
+            IsComplete = true;
+            OutputPath = result.OutputPath;
+
+            project.Assets.Add(asset);
+            _projectService.Save(project);
 
             for (int i = 10; i > 0; i--)
             {
@@ -144,7 +148,7 @@ public partial class ReviewStepViewModel : ObservableObject
                 await Task.Delay(1000);
             }
 
-            _main.NavigateTo(new DashboardViewModel(_main));
+            _main.NavigateTo(new ProjectsGridViewModel(_main));
         }
         else
         {
