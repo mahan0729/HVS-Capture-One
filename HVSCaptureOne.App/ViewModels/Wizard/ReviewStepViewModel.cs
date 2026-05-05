@@ -54,8 +54,8 @@ public partial class ReviewStepViewModel : ObservableObject
     /// <summary>Summary: detected duration from Step 2.</summary>
     public string Duration       => _wizard.FileImport.DetectedDuration;
 
-    /// <summary>Summary: effective output filename from Step 3.</summary>
-    public string OutputFileName => _wizard.FileNaming.EffectiveFileName;
+    /// <summary>Summary: effective output filename from Step 3 (includes _web suffix).</summary>
+    public string OutputFileName => _wizard.FileNaming.OutputFileName;
 
     /// <summary>Summary: main title from Step 4.</summary>
     public string MainTitle      => _wizard.MetadataForm.MainTitle;

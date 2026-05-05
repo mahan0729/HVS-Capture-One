@@ -75,14 +75,16 @@ public class FFprobeService
         using var process = Process.Start(psi)
             ?? throw new InvalidOperationException("Failed to start ffprobe process.");
 
-        string output = process.StandardOutput.ReadToEnd();
+        // Read stdout and stderr concurrently to prevent pipe-buffer deadlock.
+        var stdoutTask = Task.Run(() => process.StandardOutput.ReadToEnd());
+        var stderrTask = Task.Run(() => process.StandardError.ReadToEnd());
         process.WaitForExit();
 
+        string output = stdoutTask.Result;
+        string error  = stderrTask.Result;
+
         if (process.ExitCode != 0)
-        {
-            string error = process.StandardError.ReadToEnd();
             throw new InvalidOperationException($"ffprobe exited with code {process.ExitCode}: {error}");
-        }
 
         return output;
     }

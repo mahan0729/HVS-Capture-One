@@ -68,7 +68,7 @@
                                Foreground="{StaticResource PrimaryAccentBrush}">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0}.mp4">
-                                <Binding Path="EffectiveFileName" />
+                                <Binding Path="OutputFileName" />
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>

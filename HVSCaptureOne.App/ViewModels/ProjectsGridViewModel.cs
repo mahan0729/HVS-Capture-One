@@ -13,8 +13,12 @@ namespace HVSCaptureOne.App.ViewModels;
 /// </summary>
 public partial class ProjectsGridViewModel : ObservableObject
 {
-    private readonly MainViewModel  _main;
-    private readonly ProjectService _projectService = new();
+    private readonly MainViewModel      _main;
+    private readonly ProjectService     _projectService     = new();
+    private readonly UserProfileService _userProfileService = new();
+
+    private readonly bool   _hasProfile;
+    private readonly string _profileName;
 
     /// <summary>All video rows — one per asset across all saved projects.</summary>
     public ObservableCollection<VideoRowViewModel> Rows { get; } = new();
@@ -23,12 +27,31 @@ public partial class ProjectsGridViewModel : ObservableObject
     public bool HasRows => Rows.Count > 0;
 
     /// <summary>
+    /// Visibility of the header label — hidden when no user profile JSON file exists.
+    /// </summary>
+    public Visibility HeaderLabelVisibility => _hasProfile ? Visibility.Visible : Visibility.Collapsed;
+
+    /// <summary>
+    /// Header label text — changes based on whether projects exist.
+    /// </summary>
+    public string HeaderLabel => HasRows
+        ? $"Projects for {_profileName}"
+        : $"{_profileName} Currently has No Projects";
+
+    /// <summary>
     /// Initializes the grid and loads all saved projects from disk.
     /// </summary>
     /// <returns></returns>
     public ProjectsGridViewModel(MainViewModel main)
     {
         _main = main;
+
+        var profile  = _userProfileService.Load();
+        _hasProfile  = profile is not null;
+        _profileName = profile is not null
+            ? $"{profile.FirstName} {profile.LastName}".Trim()
+            : string.Empty;
+
         LoadRows();
     }
 
@@ -41,12 +64,14 @@ public partial class ProjectsGridViewModel : ObservableObject
                 Rows.Add(new VideoRowViewModel(project, asset, _projectService, RemoveRow));
         }
         OnPropertyChanged(nameof(HasRows));
+        OnPropertyChanged(nameof(HeaderLabel));
     }
 
     private void RemoveRow(VideoRowViewModel row)
     {
         Rows.Remove(row);
         OnPropertyChanged(nameof(HasRows));
+        OnPropertyChanged(nameof(HeaderLabel));
     }
 
     /// <summary>Navigates to the New Project wizard.</summary>

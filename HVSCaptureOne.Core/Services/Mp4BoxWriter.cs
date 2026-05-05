@@ -163,14 +163,17 @@ public class Mp4BoxWriter
         byte[] valueBytes = Encoding.UTF8.GetBytes(value);
         byte[] uuidBytes  = Guid.NewGuid().ToByteArray(); // 16 random bytes
 
-        int totalSize = 4 + 4 + 16 + nameBytes.Length + valueBytes.Length;
+        // Format: [4B size][4B 'uuid'][16B UUID][4B name][1B '.'][N bytes value]
+        // The period separator is required by the DVA scanner (confirmed by Nadav Givoni 2026-05-05).
+        int totalSize = 4 + 4 + 16 + nameBytes.Length + 1 + valueBytes.Length;
         var box = new byte[totalSize];
 
         BinaryPrimitives.WriteUInt32BigEndian(box.AsSpan(0, 4), (uint)totalSize);
         Encoding.ASCII.GetBytes("uuid").CopyTo(box, 4);
         uuidBytes.CopyTo(box, 8);
         nameBytes.CopyTo(box, 24);
-        valueBytes.CopyTo(box, 28);
+        box[28] = 0x2E; // '.' separator between name and value
+        valueBytes.CopyTo(box, 29);
 
         return box;
     }

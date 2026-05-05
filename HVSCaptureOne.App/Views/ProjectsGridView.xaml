@@ -102,12 +102,39 @@
                 <TextBlock Style="{StaticResource StepHeader}"
                            Text="Video Library"
                            VerticalAlignment="Center" />
+                <TextBlock FontFamily="{StaticResource LatoFont}"
+                           FontSize="13"
+                           Foreground="White"
+                           Opacity="0.85"
+                           Text="{Binding HeaderLabel}"
+                           Visibility="{Binding HeaderLabelVisibility}"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
                 <Button Style="{StaticResource SecondaryButton}"
-                        Content="+ New Project"
                         Command="{Binding NewProjectCommand}"
                         HorizontalAlignment="Right"
-                        FontSize="14"
-                        Padding="20,8" />
+                        Padding="10,6">
+                    <StackPanel HorizontalAlignment="Center">
+                        <Path Width="36" Height="36" Stretch="Uniform" Fill="Black"
+                              Data="M104.885,17.995c23.993,23.994,23.993,62.896,0,86.89c-23.994,23.993-62.896,23.993-86.89,0c-23.993-23.994-23.993-62.896,0-86.89C41.989-5.998,80.891-5.998,104.885,17.995z M93.607,57.949c1.928,0,3.49,1.563,3.49,3.49c0,1.928-1.563,3.49-3.49,3.49H64.93v28.678c0,1.928-1.563,3.49-3.49,3.49c-1.927,0-3.489-1.563-3.489-3.49V64.93H29.272c-1.928,0-3.491-1.563-3.491-3.49c0-1.927,1.563-3.49,3.491-3.49H57.95V29.271c0-1.927,1.563-3.49,3.489-3.49c1.928,0,3.49,1.563,3.49,3.49v28.678H93.607z" />
+                        <TextBlock Text="+ New Project"
+                                   FontFamily="{StaticResource MontserratFont}"
+                                   FontSize="11"
+                                   Foreground="Black"
+                                   HorizontalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
             </Grid>
         </Border>
 
@@ -277,7 +304,7 @@
                                             <TextBlock Text="Edit"
                                                        FontFamily="{StaticResource MontserratFont}"
                                                        FontSize="10"
-                                                       Foreground="White"
+                                                       Foreground="Black"
                                                        HorizontalAlignment="Center">
                                                 <TextBlock.Style>
                                                     <Style TargetType="TextBlock">
@@ -298,10 +325,30 @@
                                             Command="{Binding SaveEditCommand}"
                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
                                     <!-- Cancel (edit mode only) -->
-                                    <Button Content="Cancel"
-                                            Style="{StaticResource GridCancelBtn}"
+                                    <Button Style="{StaticResource GridCancelBtn}"
                                             Command="{Binding CancelEditCommand}"
-                                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
+                                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <StackPanel HorizontalAlignment="Center">
+                                            <Path Width="20" Height="20" Stretch="Uniform" Fill="Black"
+                                                  Data="M61.44,0c33.926,0,61.44,27.514,61.44,61.44c0,33.926-27.514,61.439-61.44,61.439C27.513,122.88,0,95.366,0,61.44C0,27.514,27.513,0,61.44,0z M98.505,37.049L37.051,98.503c6.999,4.617,15.379,7.307,24.389,7.307c24.5,0,44.369-19.869,44.369-44.369C105.809,52.431,103.119,44.05,98.505,37.049z M24.378,85.829l61.453-61.454c-6.997-4.615-15.381-7.304-24.391-7.304c-24.5,0-44.369,19.87-44.369,44.369C17.072,70.449,19.761,78.83,24.378,85.829z" />
+                                            <TextBlock Text="Cancel"
+                                                       FontFamily="{StaticResource MontserratFont}"
+                                                       FontSize="10"
+                                                       Foreground="Black"
+                                                       HorizontalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Button>
                                     <!-- Delete (always visible) -->
                                     <Button Style="{StaticResource GridDeleteBtn}"
                                             Command="{Binding DeleteCommand}">
@@ -314,7 +361,7 @@
                                             <TextBlock Text="Delete"
                                                        FontFamily="{StaticResource MontserratFont}"
                                                        FontSize="10"
-                                                       Foreground="White"
+                                                       Foreground="Black"
                                                        HorizontalAlignment="Center">
                                                 <TextBlock.Style>
                                                     <Style TargetType="TextBlock">

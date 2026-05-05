@@ -22,11 +22,15 @@ public partial class FileNamingStepViewModel : ObservableObject
     /// <summary>Gets or sets whether the user keeps the suggested filename.</summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsValid))]
+    [NotifyPropertyChangedFor(nameof(EffectiveFileName))]
+    [NotifyPropertyChangedFor(nameof(OutputFileName))]
     private bool _useSuggestedName = true;
 
     /// <summary>Gets or sets the custom filename entered by the user when overriding.</summary>
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsValid))]
+    [NotifyPropertyChangedFor(nameof(EffectiveFileName))]
+    [NotifyPropertyChangedFor(nameof(OutputFileName))]
     private string _customFileName = string.Empty;
 
     /// <summary>
@@ -43,6 +47,12 @@ public partial class FileNamingStepViewModel : ObservableObject
     /// </summary>
     public string EffectiveFileName =>
         UseSuggestedName ? SuggestedFileName : CustomFileName.Trim();
+
+    /// <summary>
+    /// The final output filename with the required _web suffix appended.
+    /// This is the name written to disk: e.g. Hanley_Robert_01_web.mp4
+    /// </summary>
+    public string OutputFileName => $"{EffectiveFileName}_web";
 
     /// <summary>
     /// True when the step has a valid filename to proceed with.

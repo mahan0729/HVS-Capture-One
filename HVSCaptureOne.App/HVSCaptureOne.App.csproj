@@ -23,6 +23,8 @@
     <Resource Include="Assets\previous.png" />
     <Resource Include="Assets\browse.png" />
     <Resource Include="Assets\help.png" />
+    <Resource Include="Assets\New.png" />
+    <Resource Include="Assets\Cancel.png" />
   </ItemGroup>
 
   <ItemGroup>

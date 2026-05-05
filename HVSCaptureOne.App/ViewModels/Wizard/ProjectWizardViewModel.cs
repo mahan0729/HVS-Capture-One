@@ -121,11 +121,11 @@ public partial class ProjectWizardViewModel : ObservableObject
     private bool CanGoBack() => !IsFirstStep;
 
     /// <summary>
-    /// Cancels the wizard and returns to the Dashboard.
+    /// Cancels the wizard and returns to the Projects Grid.
     /// </summary>
     /// <returns></returns>
     [RelayCommand]
-    private void Cancel() => _main.NavigateTo(new DashboardViewModel(_main));
+    private void Cancel() => _main.NavigateTo(new ProjectsGridViewModel(_main));
 
     /// <summary>
     /// Shuts down the application.

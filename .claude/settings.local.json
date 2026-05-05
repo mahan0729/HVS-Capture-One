@@ -34,7 +34,22 @@
       "Bash(ffprobe:*)",
       "Bash(C:\\\\Tools\\\\exiftool\\\\exiftool.exe -v3 \"C:\\\\Users\\\\mahan\\\\OneDrive\\\\Documents\\\\_HVS\\\\Output\\\\Hanley_Robert_01.mp4\")",
       "Bash(\"/c/Tools/exiftool/exiftool.exe\" -v3 \"C:/Users/mahan/OneDrive/Documents/_HVS/Output/Hanley_Robert_01.mp4\")",
-      "Bash(dotnet clean:*)"
+      "Bash(dotnet clean:*)",
+      "Bash(exiftool -v1 \"C:\\\\Users\\\\mahan\\\\OneDrive\\\\Documents\\\\_HVS\\\\Output\\\\Hanley_Robert_01.mp4\" -api largefilesupport=1)",
+      "Bash(exiftool -v1 \"C:/Users/mahan/OneDrive/Pictures/Camera Roll/WIN_20200503_19_29_19_Pro.mp4\" -api largefilesupport=1)",
+      "Bash(exiftool:*)",
+      "Bash(ffmpeg:*)",
+      "Bash(\"C:/Source/HVS Capture 1/HVSCaptureOne.App/bin/Debug/net10.0-windows/ffprobe.exe\" -v quiet -print_format json -show_streams -show_format \"C:/HVS/Temp/MP41_CFR.mp4\")",
+      "Bash(echo \"Exit code: $?\")",
+      "Bash(cat \"C:/Users/mahan/AppData/Local/HVSCaptureOne/logs/\"*.log)",
+      "Bash(magick \"C:\\\\Source\\\\HVS Capture 1\\\\HVSCaptureOne.App\\\\Assets\\\\New.svg\" -resize 36x36 \"C:\\\\Source\\\\HVS Capture 1\\\\HVSCaptureOne.App\\\\Assets\\\\New.png\")",
+      "Bash(magick \"C:\\\\Source\\\\HVS Capture 1\\\\HVSCaptureOne.App\\\\Assets\\\\cancel.svg\" -resize 36x36 \"C:\\\\Source\\\\HVS Capture 1\\\\HVSCaptureOne.App\\\\Assets\\\\Cancel.png\")",
+      "Bash(where inkscape:*)",
+      "Bash(where rsvg-convert:*)",
+      "Bash(where python:*)",
+      "Bash(python -c \"import cairosvg\")",
+      "Bash(python -c \"from svglib.svglib import svg2rlg\")",
+      "Bash(dotnet run:*)"
     ]
   }
 }
