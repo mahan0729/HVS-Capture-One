@@ -120,6 +120,7 @@ public partial class ReviewStepViewModel : ObservableObject
             $"{OutputFileName}.mp4");
 
         var profile  = _profileService.Load() ?? new UserProfile { HVSLocationNumber = "55" };
+        project.OwnerEmail = profile.Email;
         var progress = new Progress<string>(msg => ProcessingStatus = msg);
 
         var result = await Task.Run(() =>

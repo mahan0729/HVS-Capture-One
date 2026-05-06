@@ -19,6 +19,7 @@ public partial class ProjectsGridViewModel : ObservableObject
 
     private readonly bool   _hasProfile;
     private readonly string _profileName;
+    private readonly string _profileEmail;
 
     /// <summary>All video rows — one per asset across all saved projects.</summary>
     public ObservableCollection<VideoRowViewModel> Rows { get; } = new();
@@ -46,11 +47,12 @@ public partial class ProjectsGridViewModel : ObservableObject
     {
         _main = main;
 
-        var profile  = _userProfileService.Load();
-        _hasProfile  = profile is not null;
-        _profileName = profile is not null
+        var profile   = _userProfileService.Load();
+        _hasProfile   = profile is not null;
+        _profileName  = profile is not null
             ? $"{profile.FirstName} {profile.LastName}".Trim()
             : string.Empty;
+        _profileEmail = profile?.Email ?? string.Empty;
 
         LoadRows();
     }
@@ -58,7 +60,8 @@ public partial class ProjectsGridViewModel : ObservableObject
     private void LoadRows()
     {
         Rows.Clear();
-        foreach (var project in _projectService.LoadAll())
+        foreach (var project in _projectService.LoadAll()
+                     .Where(p => p.OwnerEmail.Equals(_profileEmail, StringComparison.OrdinalIgnoreCase)))
         {
             foreach (var asset in project.Assets)
                 Rows.Add(new VideoRowViewModel(project, asset, _projectService, RemoveRow));

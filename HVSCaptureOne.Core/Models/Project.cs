@@ -2,6 +2,9 @@ namespace HVSCaptureOne.Core.Models;
 
 public class Project
 {
+    // Email of the HVS operator who created the project — used to filter the grid per profile.
+    public string OwnerEmail { get; set; } = string.Empty;
+
     // User-assigned project ID — used as the tpnm atom value (e.g. "pasotti_sandy01")
     public string ProjectId { get; set; } = string.Empty;
 
