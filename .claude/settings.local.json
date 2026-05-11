@@ -49,7 +49,8 @@
       "Bash(where python:*)",
       "Bash(python -c \"import cairosvg\")",
       "Bash(python -c \"from svglib.svglib import svg2rlg\")",
-      "Bash(dotnet run:*)"
+      "Bash(dotnet run:*)",
+      "Bash(dotnet publish:*)"
     ]
   }
 }
