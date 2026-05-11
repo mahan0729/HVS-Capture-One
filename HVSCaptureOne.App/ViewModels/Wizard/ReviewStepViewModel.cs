@@ -143,9 +143,13 @@ public partial class ReviewStepViewModel : ObservableObject
             project.Assets.Add(asset);
             _projectService.Save(project);
 
+            string chapterSummary = result.ChapterCount > 0
+                ? $" — {result.ChapterCount} chapters embedded"
+                : string.Empty;
+
             for (int i = 10; i > 0; i--)
             {
-                ProcessingStatus = $"Processing complete. Returning to main screen in {i}…";
+                ProcessingStatus = $"Processing complete{chapterSummary}. Returning to main screen in {i}…";
                 await Task.Delay(1000);
             }
 

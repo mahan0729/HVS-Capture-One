@@ -14,12 +14,15 @@ public class ProcessingResult
     /// <summary>Human-readable error description. Populated on failure.</summary>
     public string ErrorMessage { get; init; } = string.Empty;
 
+    /// <summary>Number of chapter atoms embedded. Zero when no chapters were written.</summary>
+    public int ChapterCount { get; init; }
+
     /// <summary>
-    /// Creates a successful result with the given output path.
+    /// Creates a successful result with the given output path and chapter count.
     /// </summary>
     /// <returns></returns>
-    public static ProcessingResult Ok(string outputPath) =>
-        new() { Success = true, OutputPath = outputPath };
+    public static ProcessingResult Ok(string outputPath, int chapterCount = 0) =>
+        new() { Success = true, OutputPath = outputPath, ChapterCount = chapterCount };
 
     /// <summary>
     /// Creates a failed result with the given error message.

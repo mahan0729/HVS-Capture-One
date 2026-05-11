@@ -50,6 +50,11 @@ public class ProcessingService
             // Verify output folder is writable with a quick probe
             VerifyOutputFolderWritable(outputDir ?? outputPath);
 
+            progress?.Report("Generating chapters…");
+            asset.Metadata.Chapters = ChapterService.Generate(asset.Metadata.DetectedDuration);
+            Log.Debug("Generated {Count} chapters for duration {Duration}",
+                asset.Metadata.Chapters.Count, asset.Metadata.DetectedDuration);
+
             progress?.Report("Building metadata atoms…");
             Log.Debug("Building DVA atom list for project {ProjectId}", project.ProjectId);
             var atoms = _atomBuilder.Build(project, asset, profile, DateTime.Now);
@@ -64,10 +69,10 @@ public class ProcessingService
 
             var fileInfo = new FileInfo(outputPath);
             Log.Information(
-                "Processing complete. Output={Output} Size={Size:N0} bytes",
-                outputPath, fileInfo.Length);
+                "Processing complete. Output={Output} Chapters={Chapters} Size={Size:N0} bytes",
+                outputPath, asset.Metadata.Chapters.Count, fileInfo.Length);
 
-            return ProcessingResult.Ok(outputPath);
+            return ProcessingResult.Ok(outputPath, asset.Metadata.Chapters.Count);
         }
         catch (UnauthorizedAccessException ex)
         {

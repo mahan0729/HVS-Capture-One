@@ -11,6 +11,7 @@ public class ValidationService
     private const int MaxWidth = 3840;
     private const int MaxHeight = 2160;
     private const double VfrTolerance = 0.01;
+    private static readonly TimeSpan MaxDuration = new(2, 5, 0); // 2h 05m
 
     /// <summary>
     /// Validates the given probe result against all MVP rules.
@@ -35,6 +36,9 @@ public class ValidationService
 
         var vfrCheck = ValidateFrameRate(probe);
         if (!vfrCheck.IsValid) return vfrCheck;
+
+        var durationCheck = ValidateDuration(probe);
+        if (!durationCheck.IsValid) return durationCheck;
 
         return ValidationResult.Success();
     }
@@ -89,6 +93,21 @@ public class ValidationService
 
         return ValidationResult.Fail(
             "Vertical video is not supported. Please use a landscape orientation file.");
+    }
+
+    /// <summary>
+    /// Checks that the video duration does not exceed the 2h 05m maximum.
+    /// </summary>
+    /// <returns></returns>
+    private static ValidationResult ValidateDuration(VideoProbeResult probe)
+    {
+        if (probe.Duration <= MaxDuration)
+            return ValidationResult.Success();
+
+        var actual = $"{(int)probe.Duration.TotalHours}h {probe.Duration.Minutes:D2}m";
+        return ValidationResult.Fail(
+            $"Video duration ({actual}) exceeds the 2h 05m maximum. " +
+            "Please trim the file before importing.");
     }
 
     /// <summary>

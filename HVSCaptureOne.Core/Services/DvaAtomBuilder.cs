@@ -42,12 +42,15 @@ public class DvaAtomBuilder
             new(AtomCanon.ClientEmail,    project.ClientEmail),
             new(AtomCanon.LocationNumber, operatorProfile.HVSLocationNumber),
             new(AtomCanon.ProjectId,      project.ProjectId),
-            new(AtomCanon.ChapterCount,   meta.Chapters.Count.ToString()),
         };
 
-        // ch01..chNN — populated in v1.5 when chapters are supported
-        foreach (var (chapter, index) in meta.Chapters.Select((c, i) => (c, i + 1)))
-            atoms.Add(new(AtomCanon.GetChapterAtomName(index), chapter));
+        // numc + ch01..chNN — only written when chapters are present (v1.5+)
+        if (meta.Chapters.Count > 0)
+        {
+            atoms.Add(new(AtomCanon.ChapterCount, meta.Chapters.Count.ToString()));
+            foreach (var (chapter, index) in meta.Chapters.Select((c, i) => (c, i + 1)))
+                atoms.Add(new(AtomCanon.GetChapterAtomName(index), chapter));
+        }
 
         return atoms.AsReadOnly();
     }
