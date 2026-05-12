@@ -20,6 +20,15 @@ public partial class EditProjectViewModel : ObservableObject
     private readonly ProcessingService  _processingService  = new();
     private readonly UserProfileService _userProfileService = new();
 
+    // Snapshots taken at load time — used to detect whether anything changed.
+    private readonly string _origClientName;
+    private readonly string _origClientEmail;
+    private readonly string _origMainTitle;
+    private readonly string _origSubTitle;
+    private readonly string _origDescription;
+    private readonly string _origOriginalTapeId;
+    private readonly string _origNotes;
+
     /// <summary>
     /// Initializes the edit page with the project and asset to edit.
     /// </summary>
@@ -30,14 +39,24 @@ public partial class EditProjectViewModel : ObservableObject
         _project = project;
         _asset   = asset;
 
-        ClientName     = project.ClientName;
-        ClientEmail    = project.ClientEmail;
-        MainTitle      = asset.Metadata.MainTitle;
-        SubTitle       = asset.Metadata.SubTitle;
-        Description    = asset.Metadata.Description;
-        OriginalTapeId = asset.Metadata.OriginalTapeId;
-        Notes          = asset.Metadata.Notes;
+        ClientName     = _origClientName     = project.ClientName;
+        ClientEmail    = _origClientEmail    = project.ClientEmail;
+        MainTitle      = _origMainTitle      = asset.Metadata.MainTitle;
+        SubTitle       = _origSubTitle       = asset.Metadata.SubTitle;
+        Description    = _origDescription    = asset.Metadata.Description;
+        OriginalTapeId = _origOriginalTapeId = asset.Metadata.OriginalTapeId;
+        Notes          = _origNotes          = asset.Metadata.Notes;
     }
+
+    /// <summary>True when any editable field differs from its original value.</summary>
+    private bool HasChanges =>
+        ClientName     != _origClientName     ||
+        ClientEmail    != _origClientEmail    ||
+        MainTitle      != _origMainTitle      ||
+        SubTitle       != _origSubTitle       ||
+        Description    != _origDescription    ||
+        OriginalTapeId != _origOriginalTapeId ||
+        Notes          != _origNotes;
 
     // ── Read-only display ────────────────────────────────────────────────────
 
@@ -131,6 +150,12 @@ public partial class EditProjectViewModel : ObservableObject
     [RelayCommand(CanExecute = nameof(CanReprocess))]
     private async Task ReprocessAsync()
     {
+        if (!HasChanges)
+        {
+            _main.NavigateTo(new ProjectsGridViewModel(_main));
+            return;
+        }
+
         CommitEdits();
 
         if (!File.Exists(_asset.OriginalFilePath))
