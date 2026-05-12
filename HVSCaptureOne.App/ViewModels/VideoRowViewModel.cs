@@ -9,137 +9,71 @@ namespace HVSCaptureOne.App.ViewModels;
 
 /// <summary>
 /// Represents a single video row in the Projects grid.
-/// Supports inline editing of client and metadata fields.
 /// </summary>
 public partial class VideoRowViewModel : ObservableObject
 {
-    private readonly Project    _project;
-    private readonly VideoAsset _asset;
-    private readonly ProjectService              _projectService;
-    private readonly Action<VideoRowViewModel>   _onDeleted;
-
-    private string _origClientName  = string.Empty;
-    private string _origClientEmail = string.Empty;
-    private string _origMainTitle   = string.Empty;
-    private string _origSubTitle    = string.Empty;
-    private string _origDescription = string.Empty;
+    private readonly MainViewModel              _main;
+    private readonly Project                    _project;
+    private readonly VideoAsset                 _asset;
+    private readonly ProjectService             _projectService;
+    private readonly Action<VideoRowViewModel>  _onDeleted;
 
     /// <summary>
     /// Initializes a row bound to the given project and asset.
     /// </summary>
     /// <returns></returns>
     public VideoRowViewModel(
+        MainViewModel              main,
         Project                    project,
         VideoAsset                 asset,
         ProjectService             projectService,
         Action<VideoRowViewModel>  onDeleted)
     {
+        _main           = main;
         _project        = project;
         _asset          = asset;
         _projectService = projectService;
         _onDeleted      = onDeleted;
-
-        ClientName  = project.ClientName;
-        ClientEmail = project.ClientEmail;
-        MainTitle   = asset.Metadata.MainTitle;
-        SubTitle    = asset.Metadata.SubTitle;
-        Description = asset.Metadata.Description;
     }
 
-    // ── Read-only display ────────────────────────────────────────────────────
+    // ── Display properties ───────────────────────────────────────────────────
 
     /// <summary>Project ID (e.g. "hanley_robert_01").</summary>
     public string ProjectId  => _project.ProjectId;
 
-    /// <summary>Date the project was created.</summary>
-    public string Date       => _project.CreatedDate.ToString("MM/dd/yyyy");
-
-    /// <summary>Processing status of the asset.</summary>
-    public string Status     => _asset.Status.ToString();
-
-    /// <summary>Output filename without directory path.</summary>
-    public string OutputFile => Path.GetFileName(_asset.OutputFilePath);
-
-    // ── Edit state ───────────────────────────────────────────────────────────
-
-    /// <summary>True while the row is in edit mode.</summary>
-    [ObservableProperty] private bool _isEditing;
-
-    // ── Editable fields ──────────────────────────────────────────────────────
-
     /// <summary>Client full name.</summary>
-    [ObservableProperty] private string _clientName  = string.Empty;
+    public string ClientName  => _project.ClientName;
 
     /// <summary>Client email address.</summary>
-    [ObservableProperty] private string _clientEmail = string.Empty;
+    public string ClientEmail => _project.ClientEmail;
 
     /// <summary>Main video title.</summary>
-    [ObservableProperty] private string _mainTitle   = string.Empty;
+    public string MainTitle   => _asset.Metadata.MainTitle;
 
     /// <summary>Video sub title.</summary>
-    [ObservableProperty] private string _subTitle    = string.Empty;
+    public string SubTitle    => _asset.Metadata.SubTitle;
 
     /// <summary>Video description.</summary>
-    [ObservableProperty] private string _description = string.Empty;
+    public string Description => _asset.Metadata.Description;
+
+    /// <summary>Date the project was created.</summary>
+    public string Date        => _project.CreatedDate.ToString("MM/dd/yyyy");
+
+    /// <summary>Processing status of the asset.</summary>
+    public string Status      => _asset.Status.ToString();
+
+    /// <summary>Output filename without directory path.</summary>
+    public string OutputFile  => Path.GetFileName(_asset.OutputFilePath);
 
     // ── Commands ─────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// Enters edit mode, snapshotting current values so Cancel can revert them.
+    /// Navigates to the Edit Project page for this row.
     /// </summary>
     /// <returns></returns>
     [RelayCommand]
-    private void Edit()
-    {
-        _origClientName  = ClientName;
-        _origClientEmail = ClientEmail;
-        _origMainTitle   = MainTitle;
-        _origSubTitle    = SubTitle;
-        _origDescription = Description;
-        IsEditing = true;
-    }
-
-    /// <summary>
-    /// Commits edits to the project model and saves to disk.
-    /// </summary>
-    /// <returns></returns>
-    [RelayCommand]
-    private void SaveEdit()
-    {
-        _project.ClientName  = ClientName.Trim();
-        _project.ClientEmail = ClientEmail.Trim();
-
-        _asset.Metadata.ClientName   = ClientName.Trim();
-        _asset.Metadata.ClientEmail  = ClientEmail.Trim();
-        _asset.Metadata.MainTitle    = MainTitle.Trim();
-        _asset.Metadata.SubTitle     = SubTitle.Trim();
-        _asset.Metadata.Description  = Description.Trim();
-
-        // Sync display values to trimmed result
-        ClientName  = _project.ClientName;
-        ClientEmail = _project.ClientEmail;
-        MainTitle   = _asset.Metadata.MainTitle;
-        SubTitle    = _asset.Metadata.SubTitle;
-        Description = _asset.Metadata.Description;
-
-        _projectService.Save(_project);
-        IsEditing = false;
-    }
-
-    /// <summary>
-    /// Cancels edits, restoring the values captured when Edit was clicked.
-    /// </summary>
-    /// <returns></returns>
-    [RelayCommand]
-    private void CancelEdit()
-    {
-        ClientName  = _origClientName;
-        ClientEmail = _origClientEmail;
-        MainTitle   = _origMainTitle;
-        SubTitle    = _origSubTitle;
-        Description = _origDescription;
-        IsEditing   = false;
-    }
+    private void Edit() =>
+        _main.NavigateTo(new EditProjectViewModel(_main, _project, _asset));
 
     /// <summary>
     /// Prompts for confirmation, then removes this asset from its project.

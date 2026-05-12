@@ -38,8 +38,6 @@
         </Style>
 
         <Style x:Key="GridEditBtn"   TargetType="Button" BasedOn="{StaticResource GridBtn}" />
-        <Style x:Key="GridSaveBtn"   TargetType="Button" BasedOn="{StaticResource GridBtn}" />
-        <Style x:Key="GridCancelBtn" TargetType="Button" BasedOn="{StaticResource GridBtn}" />
         <Style x:Key="GridDeleteBtn" TargetType="Button" BasedOn="{StaticResource GridBtn}" />
 
         <!-- DataGrid column header -->
@@ -174,85 +172,50 @@
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
 
-                    <!-- Client Name — editable -->
-                    <DataGridTemplateColumn Header="Client Name" Width="145">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid Margin="4,2">
-                                    <TextBlock Style="{StaticResource CellText}"
-                                               Text="{Binding ClientName}"
-                                               Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                                    <TextBox Style="{StaticResource FormTextBox}"
-                                             Text="{Binding ClientName, UpdateSourceTrigger=PropertyChanged}"
-                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <!-- Client Name -->
+                    <DataGridTextColumn Header="Client Name"
+                                        Binding="{Binding ClientName}"
+                                        Width="145" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource CellText}" />
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
-                    <!-- Client Email — editable -->
-                    <DataGridTemplateColumn Header="Email" Width="185">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid Margin="4,2">
-                                    <TextBlock Style="{StaticResource CellText}"
-                                               Text="{Binding ClientEmail}"
-                                               Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                                    <TextBox Style="{StaticResource FormTextBox}"
-                                             Text="{Binding ClientEmail, UpdateSourceTrigger=PropertyChanged}"
-                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <!-- Client Email -->
+                    <DataGridTextColumn Header="Email"
+                                        Binding="{Binding ClientEmail}"
+                                        Width="185" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource CellText}" />
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
-                    <!-- Main Title — editable -->
-                    <DataGridTemplateColumn Header="Main Title" Width="*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid Margin="4,2">
-                                    <TextBlock Style="{StaticResource CellText}"
-                                               Text="{Binding MainTitle}"
-                                               Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                                    <TextBox Style="{StaticResource FormTextBox}"
-                                             Text="{Binding MainTitle, UpdateSourceTrigger=PropertyChanged}"
-                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <!-- Main Title -->
+                    <DataGridTextColumn Header="Main Title"
+                                        Binding="{Binding MainTitle}"
+                                        Width="*" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource CellText}" />
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
-                    <!-- Sub Title — editable -->
-                    <DataGridTemplateColumn Header="Sub Title" Width="125">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid Margin="4,2">
-                                    <TextBlock Style="{StaticResource CellText}"
-                                               Text="{Binding SubTitle}"
-                                               Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                                    <TextBox Style="{StaticResource FormTextBox}"
-                                             Text="{Binding SubTitle, UpdateSourceTrigger=PropertyChanged}"
-                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <!-- Sub Title -->
+                    <DataGridTextColumn Header="Sub Title"
+                                        Binding="{Binding SubTitle}"
+                                        Width="125" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource CellText}" />
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
-                    <!-- Description — editable -->
-                    <DataGridTemplateColumn Header="Description" Width="125">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid Margin="4,2">
-                                    <TextBlock Style="{StaticResource CellText}"
-                                               Text="{Binding Description}"
-                                               Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}" />
-                                    <TextBox Style="{StaticResource FormTextBox}"
-                                             Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-                                             Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    <!-- Description -->
+                    <DataGridTextColumn Header="Description"
+                                        Binding="{Binding Description}"
+                                        Width="125" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource CellText}" />
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
 
                     <!-- Date -->
                     <DataGridTextColumn Header="Date"
@@ -285,16 +248,15 @@
                     </DataGridTextColumn>
 
                     <!-- Actions -->
-                    <DataGridTemplateColumn Header="Actions" Width="205" IsReadOnly="True">
+                    <DataGridTemplateColumn Header="Actions" Width="120" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal"
                                             VerticalAlignment="Center"
                                             Margin="6,4">
-                                    <!-- Edit (read mode only) -->
+                                    <!-- Edit -->
                                     <Button Style="{StaticResource GridEditBtn}"
-                                            Command="{Binding EditCommand}"
-                                            Visibility="{Binding IsEditing, Converter={StaticResource InverseBoolToVisibilityConverter}}">
+                                            Command="{Binding EditCommand}">
                                         <StackPanel HorizontalAlignment="Center">
                                             <Grid Width="20" Height="20">
                                                 <Image Source="/Assets/Edit.png"
@@ -319,37 +281,7 @@
                                             </TextBlock>
                                         </StackPanel>
                                     </Button>
-                                    <!-- Save (edit mode only) -->
-                                    <Button Content="Save"
-                                            Style="{StaticResource GridSaveBtn}"
-                                            Command="{Binding SaveEditCommand}"
-                                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}" />
-                                    <!-- Cancel (edit mode only) -->
-                                    <Button Style="{StaticResource GridCancelBtn}"
-                                            Command="{Binding CancelEditCommand}"
-                                            Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
-                                        <StackPanel HorizontalAlignment="Center">
-                                            <Path Width="20" Height="20" Stretch="Uniform" Fill="Black"
-                                                  Data="M61.44,0c33.926,0,61.44,27.514,61.44,61.44c0,33.926-27.514,61.439-61.44,61.439C27.513,122.88,0,95.366,0,61.44C0,27.514,27.513,0,61.44,0z M98.505,37.049L37.051,98.503c6.999,4.617,15.379,7.307,24.389,7.307c24.5,0,44.369-19.869,44.369-44.369C105.809,52.431,103.119,44.05,98.505,37.049z M24.378,85.829l61.453-61.454c-6.997-4.615-15.381-7.304-24.391-7.304c-24.5,0-44.369,19.87-44.369,44.369C17.072,70.449,19.761,78.83,24.378,85.829z" />
-                                            <TextBlock Text="Cancel"
-                                                       FontFamily="{StaticResource MontserratFont}"
-                                                       FontSize="10"
-                                                       Foreground="Black"
-                                                       HorizontalAlignment="Center">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button}}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Button>
-                                    <!-- Delete (always visible) -->
+                                    <!-- Delete -->
                                     <Button Style="{StaticResource GridDeleteBtn}"
                                             Command="{Binding DeleteCommand}">
                                         <StackPanel HorizontalAlignment="Center">

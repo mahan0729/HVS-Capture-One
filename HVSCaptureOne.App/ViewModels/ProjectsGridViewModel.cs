@@ -64,7 +64,7 @@ public partial class ProjectsGridViewModel : ObservableObject
                      .Where(p => p.OwnerEmail.Equals(_profileEmail, StringComparison.OrdinalIgnoreCase)))
         {
             foreach (var asset in project.Assets)
-                Rows.Add(new VideoRowViewModel(project, asset, _projectService, RemoveRow));
+                Rows.Add(new VideoRowViewModel(_main, project, asset, _projectService, RemoveRow));
         }
         OnPropertyChanged(nameof(HasRows));
         OnPropertyChanged(nameof(HeaderLabel));

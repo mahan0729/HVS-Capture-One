@@ -30,6 +30,9 @@
             <DataTemplate DataType="{x:Type vm:ProjectsGridViewModel}">
                 <views:ProjectsGridView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:EditProjectViewModel}">
+                <views:EditProjectView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type vmw:ProjectWizardViewModel}">
                 <viewsw:ProjectWizardView />
             </DataTemplate>
