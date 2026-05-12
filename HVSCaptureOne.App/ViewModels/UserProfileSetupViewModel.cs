@@ -42,6 +42,9 @@ public partial class UserProfileSetupViewModel : ObservableObject
     /// <summary>Gets or sets the studio email address.</summary>
     [ObservableProperty] private string _email = string.Empty;
 
+    /// <summary>Gets or sets the studio number (maps to snum atom).</summary>
+    [ObservableProperty] private string _studioNumber = string.Empty;
+
     /// <summary>Gets or sets a validation message shown when required fields are missing.</summary>
     [ObservableProperty] private string _validationMessage = string.Empty;
 
@@ -61,12 +64,13 @@ public partial class UserProfileSetupViewModel : ObservableObject
 
         var profile = new UserProfile
         {
-            FirstName = FirstName.Trim(),
-            LastName = LastName.Trim(),
-            CompanyName = CompanyName.Trim(),
-            Address = Address.Trim(),
-            Phone = Phone.Trim(),
-            Email = Email.Trim(),
+            FirstName     = FirstName.Trim(),
+            LastName      = LastName.Trim(),
+            CompanyName   = CompanyName.Trim(),
+            Address       = Address.Trim(),
+            Phone         = Phone.Trim(),
+            Email         = Email.Trim(),
+            StudioNumber  = StudioNumber.Trim(),
             HVSLocationNumber = "55"
         };
 

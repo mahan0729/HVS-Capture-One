@@ -33,6 +33,11 @@
             <TextBox Style="{StaticResource FormTextBox}"
                      Text="{Binding CompanyName, UpdateSourceTrigger=PropertyChanged}" />
 
+            <!-- Studio Number -->
+            <TextBlock Style="{StaticResource FieldLabel}" Text="Studio Number" />
+            <TextBox Style="{StaticResource FormTextBox}"
+                     Text="{Binding StudioNumber, UpdateSourceTrigger=PropertyChanged}" />
+
             <!-- Address -->
             <TextBlock Style="{StaticResource FieldLabel}" Text="Address" />
             <TextBox Style="{StaticResource FormTextBox}"
