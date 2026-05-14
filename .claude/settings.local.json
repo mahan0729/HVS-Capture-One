@@ -50,7 +50,17 @@
       "Bash(python -c \"import cairosvg\")",
       "Bash(python -c \"from svglib.svglib import svg2rlg\")",
       "Bash(dotnet run:*)",
-      "Bash(dotnet publish:*)"
+      "Bash(dotnet publish:*)",
+      "Bash(python:*)",
+      "Bash(C:\\\\Tools\\\\ffmpeg\\\\bin\\\\ffprobe.exe:*)",
+      "Bash(/c/Source/HVS Capture 1/tools/ffprobe.exe:*)",
+      "Bash(/c/Tools/exiftool/exiftool.exe:*)",
+      "Bash(C:\\\\Tools\\\\exiftool\\\\exiftool.exe:*)",
+      "Read(//c/Tools/exiftool/**)",
+      "Bash(./exiftool.exe \"C:/HVS/Temp/Output/Man_Matman_01_web.mp4\")",
+      "Bash(./exiftool.exe -u -a \"C:/HVS/Temp/Output/Man_Matman_01_web.mp4\")",
+      "Bash(./exiftool.exe -u -a -b \"C:/HVS/Temp/Output/Man_Matman_01_web.mp4\")",
+      "Bash(powershell -Command ':*)"
     ]
   }
 }

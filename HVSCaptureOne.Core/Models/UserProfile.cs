@@ -15,4 +15,7 @@ public class UserProfile
     // Fixed HVS franchise/location constant — maps to atom cpnm.
     // Not user-editable in the UI.
     public string HVSLocationNumber { get; set; } = "55";
+
+    // Scene detection sensitivity for V2 auto-chapter generation.
+    public SensitivityLevel SceneDetectionSensitivity { get; set; } = SensitivityLevel.Medium;
 }

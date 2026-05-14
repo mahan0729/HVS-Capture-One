@@ -1,9 +1,9 @@
 namespace HVSCaptureOne.Core.Services;
 
 /// <summary>
-/// Generates auto-chapter timestamps for a video asset.
-/// v1.5 rule: one chapter every 5 minutes starting at 00:00:00:00,
-/// for each interval strictly less than the video duration.
+/// Converts chapter timestamps into HH:MM:SS:FF atom strings.
+/// v1.5: 5-minute interval generation (Generate).
+/// v2+: converts scene-detection output from SceneDetectionService (FromTimestamps).
 /// </summary>
 public static class ChapterService
 {
@@ -13,6 +13,7 @@ public static class ChapterService
     /// Returns a list of HH:MM:SS:FF timestamp strings, one per 5-minute interval,
     /// beginning at 00:00:00:00 and continuing while the timestamp is less than duration.
     /// Returns an empty list when duration is zero or negative.
+    /// Used as the fallback when scene detection is unavailable.
     /// </summary>
     /// <returns>Ordered list of chapter timestamp strings in HH:MM:SS:FF format.</returns>
     public static List<string> Generate(TimeSpan duration)
@@ -30,8 +31,17 @@ public static class ChapterService
     }
 
     /// <summary>
-    /// Formats a TimeSpan as HH:MM:SS:FF where FF is always 00
-    /// (auto-generated chapters align to whole minutes only).
+    /// Converts a list of TimeSpan scene timestamps from SceneDetectionService
+    /// into HH:MM:SS:FF atom strings. FF is always 00 — scene times are approximate
+    /// and do not carry sub-frame precision.
+    /// </summary>
+    /// <param name="timestamps">Ordered list of scene-change timestamps.</param>
+    /// <returns>Ordered list of chapter timestamp strings in HH:MM:SS:FF format.</returns>
+    public static List<string> FromTimestamps(List<TimeSpan> timestamps)
+        => timestamps.Select(FormatTimecode).ToList();
+
+    /// <summary>
+    /// Formats a TimeSpan as HH:MM:SS:FF where FF is always 00.
     /// </summary>
     /// <returns>Timecode string in HH:MM:SS:FF format.</returns>
     private static string FormatTimecode(TimeSpan ts)

@@ -5,13 +5,23 @@ namespace HVSCaptureOne.Core.Services;
 
 /// <summary>
 /// Orchestrates the full video processing pipeline for a single asset:
-/// builds the DVA atom list, then writes the output MP4.
-/// The source file is never modified.
+/// scene detection, chapter generation, thumbnail extraction, atom building,
+/// and output MP4 writing. The source file is never modified.
 /// </summary>
 public class ProcessingService
 {
+    private readonly string         _ffmpegPath;
     private readonly DvaAtomBuilder _atomBuilder = new();
     private readonly Mp4BoxWriter   _writer      = new();
+
+    /// <summary>
+    /// Initializes ProcessingService with the full path to the ffmpeg executable.
+    /// </summary>
+    /// <returns></returns>
+    public ProcessingService(string ffmpegPath)
+    {
+        _ffmpegPath = ffmpegPath;
+    }
 
     /// <summary>
     /// Processes one video asset synchronously.
@@ -21,7 +31,7 @@ public class ProcessingService
     /// <param name="outputPath">Full path for the output MP4 (created or overwritten).</param>
     /// <param name="project">Project containing client info and project ID.</param>
     /// <param name="asset">Asset containing metadata and detected video properties.</param>
-    /// <param name="profile">Operator profile supplying the HVS location number.</param>
+    /// <param name="profile">Operator profile supplying location number and scene sensitivity.</param>
     /// <param name="progress">Optional progress reporter for UI feedback.</param>
     /// <returns>ProcessingResult indicating success or failure with an error message.</returns>
     public ProcessingResult Process(
@@ -50,10 +60,25 @@ public class ProcessingService
             // Verify output folder is writable with a quick probe
             VerifyOutputFolderWritable(outputDir ?? outputPath);
 
-            progress?.Report("Generating chapters…");
-            asset.Metadata.Chapters = ChapterService.Generate(asset.Metadata.DetectedDuration);
-            Log.Debug("Generated {Count} chapters for duration {Duration}",
-                asset.Metadata.Chapters.Count, asset.Metadata.DetectedDuration);
+            // Scene detection — produces ordered list of chapter timestamps
+            progress?.Report("Detecting scenes…");
+            var sceneService = new SceneDetectionService(_ffmpegPath);
+            var timestamps   = sceneService.Detect(
+                sourcePath,
+                profile.SceneDetectionSensitivity,
+                asset.Metadata.DetectedDuration);
+
+            asset.Metadata.Chapters = ChapterService.FromTimestamps(timestamps);
+            Log.Debug("Chapters generated. Count={Count} Sensitivity={Sensitivity}",
+                asset.Metadata.Chapters.Count, profile.SceneDetectionSensitivity);
+
+            // Thumbnail extraction — one 1280×720 JPG per chapter point
+            progress?.Report("Extracting thumbnails…");
+            string thumbDir  = Path.Combine(outputDir ?? outputPath, "thumbnails");
+            string thumbBase = Path.GetFileNameWithoutExtension(outputPath);
+            var    thumbService = new ThumbnailService(_ffmpegPath);
+            asset.Metadata.ThumbnailPaths = thumbService.Extract(
+                sourcePath, thumbDir, thumbBase, timestamps);
 
             progress?.Report("Building metadata atoms…");
             Log.Debug("Building DVA atom list for project {ProjectId}", project.ProjectId);
@@ -69,8 +94,8 @@ public class ProcessingService
 
             var fileInfo = new FileInfo(outputPath);
             Log.Information(
-                "Processing complete. Output={Output} Chapters={Chapters} Size={Size:N0} bytes",
-                outputPath, asset.Metadata.Chapters.Count, fileInfo.Length);
+                "Processing complete. Output={Output} Chapters={Chapters} Thumbnails={Thumbs} Size={Size:N0} bytes",
+                outputPath, asset.Metadata.Chapters.Count, asset.Metadata.ThumbnailPaths.Count, fileInfo.Length);
 
             return ProcessingResult.Ok(outputPath, asset.Metadata.Chapters.Count);
         }

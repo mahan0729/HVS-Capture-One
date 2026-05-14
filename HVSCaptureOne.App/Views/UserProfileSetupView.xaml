@@ -38,8 +38,25 @@
             <TextBox Style="{StaticResource FormTextBox}"
                      Text="{Binding StudioNumber, UpdateSourceTrigger=PropertyChanged}" />
 
+            <!-- Scene Detection Sensitivity -->
+            <TextBlock Style="{StaticResource FieldLabel}" Text="Scene Detection Sensitivity" Margin="0,8,0,4" />
+            <TextBlock Style="{StaticResource BodyLabel}"
+                       Text="Controls how aggressively scene changes are detected when auto-generating chapters."
+                       Margin="0,0,0,8" FontSize="12" />
+            <StackPanel Orientation="Vertical" Margin="0,0,0,4">
+                <RadioButton Content="Aggressive — detects subtle changes (may produce more chapters on noisy tape)"
+                             IsChecked="{Binding IsSensitivityAggressive, Mode=TwoWay}"
+                             FontFamily="{StaticResource LatoFont}" FontSize="13" Margin="0,0,0,4" />
+                <RadioButton Content="Medium — balanced detection, recommended for most content"
+                             IsChecked="{Binding IsSensitivityMedium, Mode=TwoWay}"
+                             FontFamily="{StaticResource LatoFont}" FontSize="13" Margin="0,0,0,4" />
+                <RadioButton Content="Minimal — only strong, obvious cuts (best for very noisy VHS/Hi8)"
+                             IsChecked="{Binding IsSensitivityMinimal, Mode=TwoWay}"
+                             FontFamily="{StaticResource LatoFont}" FontSize="13" Margin="0,0,0,0" />
+            </StackPanel>
+
             <!-- Address -->
-            <TextBlock Style="{StaticResource FieldLabel}" Text="Address" />
+            <TextBlock Style="{StaticResource FieldLabel}" Text="Address" Margin="0,16,0,4" />
             <TextBox Style="{StaticResource FormTextBox}"
                      Text="{Binding Address, UpdateSourceTrigger=PropertyChanged}" />
 

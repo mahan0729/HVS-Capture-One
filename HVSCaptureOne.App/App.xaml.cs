@@ -20,6 +20,12 @@ public partial class App : Application
     public static string FFprobePath { get; private set; } = string.Empty;
 
     /// <summary>
+    /// Full path to the bundled ffmpeg.exe, resolved from the application directory.
+    /// Used by SceneDetectionService and ThumbnailService during processing.
+    /// </summary>
+    public static string FFmpegPath { get; private set; } = string.Empty;
+
+    /// <summary>
     /// Runs on application startup. Configures logging, detects first launch,
     /// resolves FFprobe path, creates the MainViewModel, and shows the MainWindow.
     /// </summary>
@@ -34,10 +40,11 @@ public partial class App : Application
         IsFirstLaunch = !profileService.Exists();
 
         FFprobePath = Path.Combine(AppContext.BaseDirectory, "ffprobe.exe");
+        FFmpegPath  = Path.Combine(AppContext.BaseDirectory, "ffmpeg.exe");
 
         Log.Information(
-            "HVS Capture One started. FirstLaunch={IsFirstLaunch} FFprobePath={FFprobePath}",
-            IsFirstLaunch, FFprobePath);
+            "HVS Capture One started. FirstLaunch={IsFirstLaunch} FFprobePath={FFprobePath} FFmpegPath={FFmpegPath}",
+            IsFirstLaunch, FFprobePath, FFmpegPath);
 
         var mainVm = new MainViewModel();
 

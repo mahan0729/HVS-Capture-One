@@ -14,7 +14,7 @@ public partial class ReviewStepViewModel : ObservableObject
 {
     private readonly ProjectWizardViewModel _wizard;
     private readonly MainViewModel          _main;
-    private readonly ProcessingService      _processingService = new();
+    private readonly ProcessingService      _processingService = new(App.FFmpegPath);
     private readonly UserProfileService     _profileService    = new();
     private readonly ProjectService         _projectService    = new();
 

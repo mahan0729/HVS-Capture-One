@@ -48,6 +48,41 @@ public partial class UserProfileSetupViewModel : ObservableObject
     /// <summary>Gets or sets a validation message shown when required fields are missing.</summary>
     [ObservableProperty] private string _validationMessage = string.Empty;
 
+    // ── Scene detection sensitivity ───────────────────────────────────────
+
+    /// <summary>
+    /// The selected scene detection sensitivity level.
+    /// Notifies the individual IsXxx radio-button properties when changed.
+    /// </summary>
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsSensitivityAggressive))]
+    [NotifyPropertyChangedFor(nameof(IsSensitivityMedium))]
+    [NotifyPropertyChangedFor(nameof(IsSensitivityMinimal))]
+    private SensitivityLevel _sceneDetectionSensitivity = SensitivityLevel.Medium;
+
+    /// <summary>True when Aggressive is selected. Bind to radio button IsChecked.</summary>
+    public bool IsSensitivityAggressive
+    {
+        get => SceneDetectionSensitivity == SensitivityLevel.Aggressive;
+        set { if (value) SceneDetectionSensitivity = SensitivityLevel.Aggressive; }
+    }
+
+    /// <summary>True when Medium is selected. Bind to radio button IsChecked.</summary>
+    public bool IsSensitivityMedium
+    {
+        get => SceneDetectionSensitivity == SensitivityLevel.Medium;
+        set { if (value) SceneDetectionSensitivity = SensitivityLevel.Medium; }
+    }
+
+    /// <summary>True when Minimal is selected. Bind to radio button IsChecked.</summary>
+    public bool IsSensitivityMinimal
+    {
+        get => SceneDetectionSensitivity == SensitivityLevel.Minimal;
+        set { if (value) SceneDetectionSensitivity = SensitivityLevel.Minimal; }
+    }
+
+    // ── Save command ──────────────────────────────────────────────────────
+
     /// <summary>
     /// Saves the profile and navigates to the Dashboard.
     /// Validates that required fields are filled before saving.
@@ -64,14 +99,15 @@ public partial class UserProfileSetupViewModel : ObservableObject
 
         var profile = new UserProfile
         {
-            FirstName     = FirstName.Trim(),
-            LastName      = LastName.Trim(),
-            CompanyName   = CompanyName.Trim(),
-            Address       = Address.Trim(),
-            Phone         = Phone.Trim(),
-            Email         = Email.Trim(),
-            StudioNumber  = StudioNumber.Trim(),
-            HVSLocationNumber = "55"
+            FirstName                 = FirstName.Trim(),
+            LastName                  = LastName.Trim(),
+            CompanyName               = CompanyName.Trim(),
+            Address                   = Address.Trim(),
+            Phone                     = Phone.Trim(),
+            Email                     = Email.Trim(),
+            StudioNumber              = StudioNumber.Trim(),
+            HVSLocationNumber         = "55",
+            SceneDetectionSensitivity = SceneDetectionSensitivity
         };
 
         _profileService.Save(profile);

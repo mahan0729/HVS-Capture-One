@@ -23,4 +23,9 @@ public class VideoMetadata
     // ── Chapters (v1.5+) ─────────────────────────────────────────────────
     // Each entry is a timestamp string in HH:MM:SS:FF format (e.g. "00:04:38:09")
     public List<string> Chapters { get; set; } = new();
+
+    // ── Thumbnails (v2+) ─────────────────────────────────────────────────
+    // Full paths to extracted JPG thumbnails, one per chapter point.
+    // Parallel to Chapters list — index N matches Chapters[N].
+    public List<string> ThumbnailPaths { get; set; } = new();
 }

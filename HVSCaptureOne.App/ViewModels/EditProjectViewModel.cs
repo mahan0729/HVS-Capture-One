@@ -17,7 +17,7 @@ public partial class EditProjectViewModel : ObservableObject
     private readonly Project            _project;
     private readonly VideoAsset         _asset;
     private readonly ProjectService     _projectService     = new();
-    private readonly ProcessingService  _processingService  = new();
+    private readonly ProcessingService  _processingService  = new(App.FFmpegPath);
     private readonly UserProfileService _userProfileService = new();
 
     // Snapshots taken at load time — used to detect whether anything changed.
